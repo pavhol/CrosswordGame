@@ -168,6 +168,7 @@ namespace crossword
             this.button6.TabIndex = 7;
             this.button6.Text = "Рекорды";
             this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button4
             // 
@@ -184,6 +185,7 @@ namespace crossword
             this.button4.TabIndex = 8;
             this.button4.Text = "Выход";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // Form1
             // 

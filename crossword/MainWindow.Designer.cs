@@ -80,7 +80,7 @@
             this.textBox1.MaxLength = 1;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(38, 23);
+            this.textBox1.Size = new System.Drawing.Size(38, 19);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -90,10 +90,10 @@
             this.listBoxhorizontal.Dock = System.Windows.Forms.DockStyle.Top;
             this.listBoxhorizontal.FormattingEnabled = true;
             this.listBoxhorizontal.HorizontalScrollbar = true;
-            this.listBoxhorizontal.ItemHeight = 25;
-            this.listBoxhorizontal.Location = new System.Drawing.Point(3, 383);
+            this.listBoxhorizontal.ItemHeight = 20;
+            this.listBoxhorizontal.Location = new System.Drawing.Point(3, 373);
             this.listBoxhorizontal.Name = "listBoxhorizontal";
-            this.listBoxhorizontal.Size = new System.Drawing.Size(583, 254);
+            this.listBoxhorizontal.Size = new System.Drawing.Size(583, 244);
             this.listBoxhorizontal.Sorted = true;
             this.listBoxhorizontal.TabIndex = 3;
             this.listBoxhorizontal.SelectedIndexChanged += new System.EventHandler(this.listBoxhorizontal_SelectedIndexChanged);
@@ -104,12 +104,12 @@
             this.Hint.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.hintToolStripMenuItem});
             this.Hint.Name = "Hint";
-            this.Hint.Size = new System.Drawing.Size(107, 28);
+            this.Hint.Size = new System.Drawing.Size(98, 26);
             // 
             // hintToolStripMenuItem
             // 
             this.hintToolStripMenuItem.Name = "hintToolStripMenuItem";
-            this.hintToolStripMenuItem.Size = new System.Drawing.Size(106, 24);
+            this.hintToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
             this.hintToolStripMenuItem.Text = "Hint";
             // 
             // listBoxvertical
@@ -119,10 +119,10 @@
             this.listBoxvertical.ContextMenuStrip = this.Hint;
             this.listBoxvertical.FormattingEnabled = true;
             this.listBoxvertical.HorizontalScrollbar = true;
-            this.listBoxvertical.ItemHeight = 25;
-            this.listBoxvertical.Location = new System.Drawing.Point(3, 28);
+            this.listBoxvertical.ItemHeight = 20;
+            this.listBoxvertical.Location = new System.Drawing.Point(3, 23);
             this.listBoxvertical.Name = "listBoxvertical";
-            this.listBoxvertical.Size = new System.Drawing.Size(583, 329);
+            this.listBoxvertical.Size = new System.Drawing.Size(583, 324);
             this.listBoxvertical.Sorted = true;
             this.listBoxvertical.TabIndex = 5;
             this.listBoxvertical.SelectedIndexChanged += new System.EventHandler(this.listBoxvertical_SelectedIndexChanged);
@@ -151,16 +151,16 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(167, 25);
+            this.label1.Size = new System.Drawing.Size(135, 20);
             this.label1.TabIndex = 6;
             this.label1.Text = "По горизонтали:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 360);
+            this.label2.Location = new System.Drawing.Point(3, 350);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(146, 20);
+            this.label2.Size = new System.Drawing.Size(119, 20);
             this.label2.TabIndex = 7;
             this.label2.Text = "По вертикали:";
             // 
@@ -176,7 +176,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 664F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 692F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1200, 692);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
@@ -199,21 +199,21 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 666);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 670);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1200, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1200, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(151, 20);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
             this.Controls.Add(this.statusStrip1);

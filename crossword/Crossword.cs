@@ -14,8 +14,7 @@ namespace crossword
         Small
         , Normal
         , Large
-        , VeryLarge
-        , UsePrevious
+        
     }
 
 
@@ -94,13 +93,9 @@ namespace crossword
             return new Word(wordName, description, rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
         }
 
-        public void GenerateNewCrossword(CrosswordSize newSize = CrosswordSize.UsePrevious)
+        public void GenerateNewCrossword(CrosswordSize newSize)
         {
-            if (newSize != CrosswordSize.UsePrevious)
-            {
-                size = newSize;
-            }
-
+            size = newSize;
             switch (size)
             {
                 case CrosswordSize.Small:
@@ -111,9 +106,6 @@ namespace crossword
                     break;
                 case CrosswordSize.Large:
                     SizeX = SizeY = 31;
-                    break;
-                case CrosswordSize.VeryLarge:
-                    SizeX = SizeY = 45;
                     break;
             }
 
@@ -211,16 +203,6 @@ namespace crossword
                     LoopsWithoutProgress = 0;
                     initialWords.Remove(wordName); // Remove by key
                 }
-            }
-
-
-            TimeSpan ts = DateTime.Now - timeStart;
-
-            int ms = (int)ts.TotalMilliseconds;
-
-            if (ms > 3000)
-            {
-                MessageBox.Show("Took " + ms + "ms to make this crossword.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
 
@@ -385,26 +367,26 @@ namespace crossword
             }
             return intersections;
         }
-        public static Dictionary<string, string> ReadWordsFromXml(string xmlFilePath)
-        {
-            var words = new Dictionary<string, string>();
+        //public static Dictionary<string, string> ReadWordsFromXml(string xmlFilePath)
+        //{
+        //    var words = new Dictionary<string, string>();
 
-            using (var xmlReader = XmlReader.Create(xmlFilePath))
-            {
-                while (xmlReader.Read())
-                {
-                    if (xmlReader.NodeType == XmlNodeType.Element && xmlReader.Name == "Word")
-                    {
-                        var wordName = xmlReader["name"];
-                        var wordDescription = xmlReader["description"];
+        //    using (var xmlReader = XmlReader.Create(xmlFilePath))
+        //    {
+        //        while (xmlReader.Read())
+        //        {
+        //            if (xmlReader.NodeType == XmlNodeType.Element && xmlReader.Name == "Word")
+        //            {
+        //                var wordName = xmlReader["name"];
+        //                var wordDescription = xmlReader["description"];
 
-                        words.Add(wordName, wordDescription);
-                    }
-                }
-            }
+        //                words.Add(wordName, wordDescription);
+        //            }
+        //        }
+        //    }
 
-            return words;
-        }
+        //    return words;
+        //}
         public bool InitialiseFromFile()
         {
             initialWords.Clear();
