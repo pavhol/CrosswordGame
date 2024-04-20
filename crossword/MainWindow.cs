@@ -19,7 +19,6 @@ namespace crossword
         public static Word selectedWord;
         public static MainWindow instance;
         CrosswordSize _size;
-        //public MainWindow(CrosswordSize size = CrosswordSize.Small)
         Dictionary<string, string> _word_list;
         private DateTime startTime; 
 
@@ -30,15 +29,17 @@ namespace crossword
             InitializeComponent();
             _word_list = word_list;
             startTime = DateTime.Now;
-            _size = size;
             timer1.Start();
         }
 
         public void StartGame(CrosswordSize size)
         {
+            LoadingForm lf = new LoadingForm();
+            _size = size;
             NewGame(size);
             startTime = DateTime.Now;
-            Show();
+            lf.Close();
+            ShowDialog();
         }
 
         private void NewGame(CrosswordSize size)
@@ -209,6 +210,16 @@ namespace crossword
         {
             Hide();
             e.Cancel = true; 
+        }
+
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void сдатьсяToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Hide();
         }
     }
 }

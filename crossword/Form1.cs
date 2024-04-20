@@ -25,25 +25,31 @@ namespace crossword
             InitializeComponent();
             _word_list = new Dictionary<string, string>();
             InitialiseFromFile();
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             _crosswordGM = new MainWindow(_word_list);
+            _crosswordGM.WindowState = FormWindowState.Maximized;
+            _crosswordGM.FormBorderStyle = FormBorderStyle.None;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Hide();
             _crosswordGM.StartGame(CrosswordSize.Small);
+            Show();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             Hide();
             _crosswordGM.StartGame(CrosswordSize.Normal);
+            Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             Hide();
             _crosswordGM.StartGame(CrosswordSize.Large);
+            Show();
         }
 
         private void button6_Click(object sender, EventArgs e)
