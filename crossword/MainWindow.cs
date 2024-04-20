@@ -155,13 +155,17 @@ namespace crossword
                 SelectedWordChanged(high);
                 listBoxhorizontal.ClearSelected();
             }
-
+            
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             TimeSpan elapsedTime = DateTime.Now - startTime;
             toolStripStatusLabel1.Text = "Прошло времени: " + elapsedTime.ToString(@"hh\:mm\:ss");
+            if (listBoxhorizontal.Items.Count == 0 && listBoxvertical.Items.Count == 0)
+            {
+                MessageBox.Show("Победа! Прошло времени: " + elapsedTime.ToString(@"hh\:mm\:ss"));
+            }
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
