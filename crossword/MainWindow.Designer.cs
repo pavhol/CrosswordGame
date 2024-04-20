@@ -44,12 +44,16 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.сдатьсяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UI_TablePanel.SuspendLayout();
             this.Hint.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // UI_TablePanel
@@ -80,7 +84,7 @@
             this.textBox1.MaxLength = 1;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(38, 19);
+            this.textBox1.Size = new System.Drawing.Size(38, 23);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -90,10 +94,10 @@
             this.listBoxhorizontal.Dock = System.Windows.Forms.DockStyle.Top;
             this.listBoxhorizontal.FormattingEnabled = true;
             this.listBoxhorizontal.HorizontalScrollbar = true;
-            this.listBoxhorizontal.ItemHeight = 20;
-            this.listBoxhorizontal.Location = new System.Drawing.Point(3, 373);
+            this.listBoxhorizontal.ItemHeight = 25;
+            this.listBoxhorizontal.Location = new System.Drawing.Point(3, 358);
             this.listBoxhorizontal.Name = "listBoxhorizontal";
-            this.listBoxhorizontal.Size = new System.Drawing.Size(583, 244);
+            this.listBoxhorizontal.Size = new System.Drawing.Size(583, 229);
             this.listBoxhorizontal.Sorted = true;
             this.listBoxhorizontal.TabIndex = 3;
             this.listBoxhorizontal.SelectedIndexChanged += new System.EventHandler(this.listBoxhorizontal_SelectedIndexChanged);
@@ -104,12 +108,12 @@
             this.Hint.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.hintToolStripMenuItem});
             this.Hint.Name = "Hint";
-            this.Hint.Size = new System.Drawing.Size(98, 26);
+            this.Hint.Size = new System.Drawing.Size(107, 28);
             // 
             // hintToolStripMenuItem
             // 
             this.hintToolStripMenuItem.Name = "hintToolStripMenuItem";
-            this.hintToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+            this.hintToolStripMenuItem.Size = new System.Drawing.Size(106, 24);
             this.hintToolStripMenuItem.Text = "Hint";
             // 
             // listBoxvertical
@@ -119,10 +123,10 @@
             this.listBoxvertical.ContextMenuStrip = this.Hint;
             this.listBoxvertical.FormattingEnabled = true;
             this.listBoxvertical.HorizontalScrollbar = true;
-            this.listBoxvertical.ItemHeight = 20;
-            this.listBoxvertical.Location = new System.Drawing.Point(3, 23);
+            this.listBoxvertical.ItemHeight = 25;
+            this.listBoxvertical.Location = new System.Drawing.Point(3, 28);
             this.listBoxvertical.Name = "listBoxvertical";
-            this.listBoxvertical.Size = new System.Drawing.Size(583, 324);
+            this.listBoxvertical.Size = new System.Drawing.Size(583, 304);
             this.listBoxvertical.Sorted = true;
             this.listBoxvertical.TabIndex = 5;
             this.listBoxvertical.SelectedIndexChanged += new System.EventHandler(this.listBoxvertical_SelectedIndexChanged);
@@ -151,16 +155,16 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(135, 20);
+            this.label1.Size = new System.Drawing.Size(167, 25);
             this.label1.TabIndex = 6;
             this.label1.Text = "По горизонтали:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 350);
+            this.label2.Location = new System.Drawing.Point(3, 335);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(119, 20);
+            this.label2.Size = new System.Drawing.Size(146, 20);
             this.label2.TabIndex = 7;
             this.label2.Text = "По вертикали:";
             // 
@@ -199,27 +203,55 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 670);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 666);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1200, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1200, 26);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(151, 20);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сдатьсяToolStripMenuItem,
+            this.сохранитьToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1200, 28);
+            this.menuStrip1.TabIndex = 8;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // сдатьсяToolStripMenuItem
+            // 
+            this.сдатьсяToolStripMenuItem.Name = "сдатьсяToolStripMenuItem";
+            this.сдатьсяToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
+            this.сдатьсяToolStripMenuItem.Text = "Сдаться";
+            this.сдатьсяToolStripMenuItem.Click += new System.EventHandler(this.сдатьсяToolStripMenuItem_Click);
+            // 
+            // сохранитьToolStripMenuItem
+            // 
+            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(97, 24);
+            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainWindow";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -235,6 +267,8 @@
             this.panel1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,6 +290,9 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem сдатьсяToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
     }
 }
 
