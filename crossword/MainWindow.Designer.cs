@@ -32,13 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.UI_TablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.listBoxhorizontal = new System.Windows.Forms.ListBox();
             this.Hint = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.hintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listBoxvertical = new System.Windows.Forms.ListBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -47,13 +42,19 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.сдатьсяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label2 = new System.Windows.Forms.Label();
+            this.listBoxvertical = new System.Windows.Forms.ListBox();
+            this.listBoxhorizontal = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.UI_TablePanel.SuspendLayout();
             this.Hint.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // UI_TablePanel
@@ -88,20 +89,6 @@
             this.textBox1.TabIndex = 0;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // listBoxhorizontal
-            // 
-            this.listBoxhorizontal.ContextMenuStrip = this.Hint;
-            this.listBoxhorizontal.Dock = System.Windows.Forms.DockStyle.Top;
-            this.listBoxhorizontal.FormattingEnabled = true;
-            this.listBoxhorizontal.HorizontalScrollbar = true;
-            this.listBoxhorizontal.ItemHeight = 25;
-            this.listBoxhorizontal.Location = new System.Drawing.Point(3, 358);
-            this.listBoxhorizontal.Name = "listBoxhorizontal";
-            this.listBoxhorizontal.Size = new System.Drawing.Size(583, 229);
-            this.listBoxhorizontal.Sorted = true;
-            this.listBoxhorizontal.TabIndex = 3;
-            this.listBoxhorizontal.SelectedIndexChanged += new System.EventHandler(this.listBoxhorizontal_SelectedIndexChanged);
-            // 
             // Hint
             // 
             this.Hint.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -115,58 +102,6 @@
             this.hintToolStripMenuItem.Name = "hintToolStripMenuItem";
             this.hintToolStripMenuItem.Size = new System.Drawing.Size(106, 24);
             this.hintToolStripMenuItem.Text = "Hint";
-            // 
-            // listBoxvertical
-            // 
-            this.listBoxvertical.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBoxvertical.ContextMenuStrip = this.Hint;
-            this.listBoxvertical.FormattingEnabled = true;
-            this.listBoxvertical.HorizontalScrollbar = true;
-            this.listBoxvertical.ItemHeight = 25;
-            this.listBoxvertical.Location = new System.Drawing.Point(3, 28);
-            this.listBoxvertical.Name = "listBoxvertical";
-            this.listBoxvertical.Size = new System.Drawing.Size(583, 304);
-            this.listBoxvertical.Sorted = true;
-            this.listBoxvertical.TabIndex = 5;
-            this.listBoxvertical.SelectedIndexChanged += new System.EventHandler(this.listBoxvertical_SelectedIndexChanged);
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.listBoxhorizontal, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.listBoxvertical, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(608, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(589, 686);
-            this.tableLayoutPanel1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(167, 25);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "По горизонтали:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 335);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(146, 20);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "По вертикали:";
             // 
             // tableLayoutPanel2
             // 
@@ -241,6 +176,84 @@
             this.сохранитьToolStripMenuItem.Text = "Сохранить";
             this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(146, 25);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "По вертикали:";
+            // 
+            // listBoxvertical
+            // 
+            this.listBoxvertical.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxvertical.ContextMenuStrip = this.Hint;
+            this.listBoxvertical.FormattingEnabled = true;
+            this.listBoxvertical.HorizontalScrollbar = true;
+            this.listBoxvertical.ItemHeight = 25;
+            this.listBoxvertical.Location = new System.Drawing.Point(3, 53);
+            this.listBoxvertical.Name = "listBoxvertical";
+            this.listBoxvertical.Size = new System.Drawing.Size(583, 254);
+            this.listBoxvertical.Sorted = true;
+            this.listBoxvertical.TabIndex = 5;
+            this.listBoxvertical.SelectedIndexChanged += new System.EventHandler(this.listBoxvertical_SelectedIndexChanged);
+            // 
+            // listBoxhorizontal
+            // 
+            this.listBoxhorizontal.ContextMenuStrip = this.Hint;
+            this.listBoxhorizontal.Dock = System.Windows.Forms.DockStyle.Top;
+            this.listBoxhorizontal.FormattingEnabled = true;
+            this.listBoxhorizontal.HorizontalScrollbar = true;
+            this.listBoxhorizontal.ItemHeight = 25;
+            this.listBoxhorizontal.Location = new System.Drawing.Point(3, 353);
+            this.listBoxhorizontal.Name = "listBoxhorizontal";
+            this.listBoxhorizontal.Size = new System.Drawing.Size(583, 304);
+            this.listBoxhorizontal.Sorted = true;
+            this.listBoxhorizontal.TabIndex = 3;
+            this.listBoxhorizontal.SelectedIndexChanged += new System.EventHandler(this.listBoxhorizontal_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(167, 25);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "По горизонтали:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 326);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(155, 24);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "По горизонали:";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.listBoxhorizontal, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.listBoxvertical, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(608, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 276F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(589, 686);
+            this.tableLayoutPanel1.TabIndex = 1;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -260,8 +273,6 @@
             this.UI_TablePanel.ResumeLayout(false);
             this.UI_TablePanel.PerformLayout();
             this.Hint.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -269,6 +280,8 @@
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -278,21 +291,22 @@
 
         private System.Windows.Forms.TableLayoutPanel UI_TablePanel;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ListBox listBoxhorizontal;
         private System.Windows.Forms.ContextMenuStrip Hint;
         private System.Windows.Forms.ToolStripMenuItem hintToolStripMenuItem;
-        private System.Windows.Forms.ListBox listBoxvertical;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem сдатьсяToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListBox listBoxhorizontal;
+        private System.Windows.Forms.ListBox listBoxvertical;
+        private System.Windows.Forms.Label label2;
     }
 }
 

@@ -11,19 +11,22 @@ using System.Configuration;
 
 namespace crossword
 {
-    public partial class PasswordForm : Form
+    public partial class NewPassword : Form
     {
-        public bool IsPasswordCorrect { get; private set; }
-
-        public PasswordForm()
+        public NewPassword()
         {
             InitializeComponent();
             SendToBack();
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             ShowInTaskbar = false;
-            IsPasswordCorrect = false;
             this.MaximizeBox = false;
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && e.KeyChar != (char)Keys.Back)
+                e.Handled = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -35,23 +38,19 @@ namespace crossword
                 config.Save(ConfigurationSaveMode.Modified);
             }
 
-            ConfigurationManager.RefreshSection("appSettings");
-            if (textBox1.Text == config.AppSettings.Settings["Password"].Value)
-            {
-                IsPasswordCorrect = true;
-                Close();
-            }
+            if (textBox2.Text.Length < 3)
+                MessageBox.Show("Пароль должен состоять хотя бы из 3 символов!");
             else
             {
-                MessageBox.Show("Пароль введен неверно!");
-                textBox1.Text = "";
+                if (textBox1.Text.Equals(config.AppSettings.Settings["Password"].Value))
+                {
+                    config.AppSettings.Settings["Password"].Value = textBox2.Text;
+                    config.Save(ConfigurationSaveMode.Modified);
+                    Close();
+                }
+                else
+                    MessageBox.Show("Старый пароль введен неверно!");
             }
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-            NewPassword new_password = new NewPassword();
-            new_password.ShowDialog();
         }
     }
 }
