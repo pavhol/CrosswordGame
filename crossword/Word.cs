@@ -9,16 +9,16 @@ namespace crossword
 {
     public enum Direction
     {
-        Horizontal
-        , Vertical
+        Horizontal,
+        Vertical
     }
 
     public class Word
     {
-        Direction direction;
-        string correctWord;
-        string description;
-        CharacterBlock[] blocks;
+        Direction _direction;
+        string _correct_word;
+        string _description;
+        CharacterBlock[] _blocks;
         bool finished = false;
 
         public delegate void OnFinish(Word sender);
@@ -26,16 +26,16 @@ namespace crossword
 
         public Word(string correctWord, string description, Direction direction = Direction.Horizontal)
         {
-            this.correctWord = correctWord.ToUpper();
-            this.direction = direction;
-            this.description = description;
-            this.blocks = new CharacterBlock[correctWord.Length];
+            this._correct_word = correctWord.ToUpper();
+            this._direction = direction;
+            this._description = description;
+            this._blocks = new CharacterBlock[correctWord.Length];
         }
 
         public void OnDescriptionClicked()
         {
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-            MessageBox.Show(correctWord, description, buttons);
+            MessageBox.Show(_correct_word, _description, buttons);
         }
 
         public void OnBlockUpdated(CharacterBlock block)
@@ -55,18 +55,18 @@ namespace crossword
             }
             else if (this == MainWindow.selectedWord)
             {
-                int currentIndex = Array.FindIndex(blocks, p => p == block) + 1;
+                int currentIndex = Array.FindIndex(_blocks, p => p == block) + 1;
                 
-                if (blocks.Length > currentIndex)
+                if (_blocks.Length > currentIndex)
                 {
-                    blocks[currentIndex].Focus();
+                    _blocks[currentIndex].Focus();
                 }
             }
         }
 
         public void SetSharedBlock(CharacterBlock block, int position)
         {
-            switch (direction)
+            switch (_direction)
             {
                 case Direction.Horizontal:
                     block.SetHorizontalWord(this);
@@ -77,17 +77,17 @@ namespace crossword
                 default:
                     throw new Exception("Unhandled case for enum WordDirection.");
             }
-            blocks.SetValue(block, position);
+            _blocks.SetValue(block, position);
         }
 
         // This will only generate the block if not already set.
         public CharacterBlock GenerateBlock(int position)
         {
-            var block = blocks[position];
+            var block = _blocks[position];
             if (block == null)
             {
-                block = new CharacterBlock(correctWord[position]);
-                blocks[position] = block;
+                block = new CharacterBlock(_correct_word[position]);
+                _blocks[position] = block;
             }
             return block;
         }
@@ -95,7 +95,7 @@ namespace crossword
         // Generate the remaining unset blocks. (or all blocks if none are already generated/set)
         public void GenerateRemainingBlocks()
         {
-            for (int i = 0; i < blocks.Length; i++)
+            for (int i = 0; i < _blocks.Length; i++)
             {
                 GenerateBlock(i);
             }
@@ -108,22 +108,22 @@ namespace crossword
                 return;
             }
 
-            int currentIndex = Array.FindIndex(blocks, p => p == characterBlock) - 1;
+            int currentIndex = Array.FindIndex(_blocks, p => p == characterBlock) - 1;
             if (currentIndex >= 0)
             {
-                blocks[currentIndex].Backspace();
+                _blocks[currentIndex].Backspace();
             }
         }
 
         public int GetLength()
         {
-            return correctWord.Length;
+            return _correct_word.Length;
         }
 
         public void Select()
         {
-            blocks[0].Focus();
-            foreach (var block in blocks)
+            _blocks[0].Focus();
+            foreach (var block in _blocks)
             {
                 block.Highlight();
             }
@@ -131,7 +131,7 @@ namespace crossword
 
         public void DeSelect()
         {
-            foreach (var block in blocks)
+            foreach (var block in _blocks)
             {
                 block.DeSelect();
             }
@@ -139,28 +139,28 @@ namespace crossword
 
         public Direction GetDirection()
         {
-            return direction;
+            return _direction;
         }
 
         public CharacterBlock GetBlockAt(int position)
         {
-            return blocks[position];
+            return _blocks[position];
         }
 
         public string GetCorrectWord()
         {
-            return correctWord;
+            return _correct_word;
         }
 
         public string GetDescription()
         {
-            return description;
+            return _description;
         }
 
         // returns true when the all blocks contain correct answers
         public bool IsCorrect()
         {
-            foreach (var block in blocks)
+            foreach (var block in _blocks)
             {
                 if (!block.IsCorrectAnswer())
                 {
@@ -172,7 +172,7 @@ namespace crossword
 
         public bool IsFilled()
         {
-            foreach (var block in blocks)
+            foreach (var block in _blocks)
             {
                 if (!block.IsSet())
                 {
@@ -192,7 +192,7 @@ namespace crossword
         {
             bool correct = IsCorrect();
 
-            foreach (var block in blocks)
+            foreach (var block in _blocks)
             {
                 if (correct)
                 {
@@ -207,7 +207,7 @@ namespace crossword
         }
         override public string ToString() 
         {
-            return description;
+            return _description;
         }
     }
 

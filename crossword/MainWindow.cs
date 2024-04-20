@@ -14,21 +14,24 @@ namespace crossword
 {
     public partial class MainWindow : Form
     {
-        Crossword activeCrossword = new Crossword();
+        Crossword activeCrossword;
         public static int blockSizePx = 21;
         public static Word selectedWord;
         public static MainWindow instance;
         CrosswordSize _size;
+        //public MainWindow(CrosswordSize size = CrosswordSize.Small)
+        Dictionary<string, string> _word_list;
         private DateTime startTime; 
 
-        public MainWindow(CrosswordSize size = CrosswordSize.Small)
+        public MainWindow(Dictionary<string, string> word_list)
         {
+            activeCrossword = new Crossword();
             instance = this;
             InitializeComponent();
+            _word_list = word_list;
             startTime = DateTime.Now;
             _size = size;
             timer1.Start();
-            activeCrossword.OpenWordFile();
         }
 
         public void StartGame(CrosswordSize size)
@@ -40,7 +43,7 @@ namespace crossword
 
         private void NewGame(CrosswordSize size)
         {
-            activeCrossword.GenerateNewCrossword(size);
+            activeCrossword.GenerateNewCrossword(_word_list, size);
             RemakeTable();
             RemakeWords();
         }
@@ -50,8 +53,8 @@ namespace crossword
             listBoxhorizontal.Items.Clear();
             listBoxvertical.Items.Clear();
 
-            Word[] words = activeCrossword.GetWords();
-            for (int i = 0; i < words.Length; ++i)
+            List<Word> words = activeCrossword.words;
+            for (int i = 0; i < words.Count; ++i)
             {
                 if (words[i].GetDirection() == Direction.Horizontal)
                 {
@@ -128,12 +131,11 @@ namespace crossword
 
         public void RemakeTable()
         {
-            IBlock[,] blocks = activeCrossword.GetBlocks();
+            IBlock[,] blocks = activeCrossword.blocks;
 
             int rowcount = blocks.GetLength(0);
             int columncount = blocks.GetLength(1);
 
-            // Clear everything old first
             UI_TablePanel.Controls.Clear();
             UI_TablePanel.RowStyles.Clear();
             UI_TablePanel.ColumnStyles.Clear();
@@ -201,7 +203,6 @@ namespace crossword
         {
             TimeSpan elapsedTime = DateTime.Now - startTime;
             toolStripStatusLabel1.Text = "Прошло времени: " + elapsedTime.ToString(@"hh\:mm\:ss");
-            
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
