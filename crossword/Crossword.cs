@@ -264,7 +264,7 @@ namespace crossword
                         return -1;
                 }
             }
-
+          
             return intersections;
         }
     }

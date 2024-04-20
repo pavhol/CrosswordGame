@@ -32,6 +32,13 @@ namespace crossword
             List<DateTime> _smallTime = new List<DateTime>();
             List<DateTime> _mediumTime = new List<DateTime>();
             List<DateTime> _largeTime = new List<DateTime>();
+            if (!File.Exists("SmallRecords.txt"))
+                File.Create("SmallRecords.txt");
+            if (!File.Exists("MediumRecords.txt"))
+                File.Create("MediumRecords.txt");
+            if (!File.Exists("LargeRecords.txt"))
+                File.Create("LargeRecords.txt");
+
             using (StreamReader reader = new StreamReader("SmallRecords.txt"))
             {
                 string line;
