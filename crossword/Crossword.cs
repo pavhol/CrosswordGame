@@ -149,7 +149,7 @@ namespace crossword
                     without_progress++;
             }
 
-            // дозополняем все пустые клетки черными блоками с любым направлением
+            // дозаполняем все пустые клетки черными блоками с любым направлением
             for (int row = 0; row < blocks.GetLength(0); row++)
             {
                 for (int col = 0; col < blocks.GetLength(1); col++)
@@ -264,8 +264,6 @@ namespace crossword
                         return -1;
                 }
             }
-
-            return intersections;
         }
     }
 }

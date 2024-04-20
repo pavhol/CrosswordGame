@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows;
+using System.IO;
 
 namespace crossword
 {
@@ -17,6 +18,8 @@ namespace crossword
         public static int blockSizePx = 21;
         public static Word selectedWord;
         public static MainWindow instance;
+        CrosswordSize _size;
+        //public MainWindow(CrosswordSize size = CrosswordSize.Small)
         Dictionary<string, string> _word_list;
         private DateTime startTime; 
 
@@ -27,16 +30,18 @@ namespace crossword
             InitializeComponent();
             _word_list = word_list;
             startTime = DateTime.Now;
+            _size = size;
             timer1.Start();
         }
 
         public void StartGame(CrosswordSize size)
         {
             NewGame(size);
+            startTime = DateTime.Now;
             Show();
         }
 
-        private void NewGame(CrosswordSize size = CrosswordSize.UsePrevious)
+        private void NewGame(CrosswordSize size)
         {
             activeCrossword.GenerateNewCrossword(_word_list, size);
             RemakeTable();
@@ -85,6 +90,42 @@ namespace crossword
             else if (listBoxvertical.Items.Count > 0)
             {
                 listBoxvertical.SelectedIndex = 0;
+            }
+            else if (listBoxhorizontal.Items.Count == 0 && listBoxvertical.Items.Count==0)
+            {
+                TimeSpan elapsedTime = DateTime.Now - startTime;
+                MessageBox.Show("Победа! Прошло времени: " + elapsedTime.ToString(@"hh\:mm\:ss"));
+                try
+                {
+                    string _filename;
+                    switch (_size)
+                    {
+                        case CrosswordSize.Small:
+                            _filename = "SmallRecords.txt";
+                            break;
+                        case CrosswordSize.Normal:
+                            _filename = "MediumRecords.txt";
+                            break;
+                        case CrosswordSize.Large:
+                            _filename = "LargeRecords.txt";
+                            break;
+                        default:
+                            _filename = "";
+                            break;
+                    }
+                    using (StreamWriter writer = new StreamWriter(_filename, true))
+                    {
+                        
+                        writer.WriteLine(elapsedTime.ToString(@"hh\:mm\:ss"));
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                Hide();
+                instance.Show();
             }
         }
 
