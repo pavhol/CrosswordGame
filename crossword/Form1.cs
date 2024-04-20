@@ -30,19 +30,16 @@ namespace crossword
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Hide();
             _crosswordGM.StartGame(CrosswordSize.Small);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Hide();
             _crosswordGM.StartGame(CrosswordSize.Normal);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Hide();
             _crosswordGM.StartGame(CrosswordSize.Large);
         }
 

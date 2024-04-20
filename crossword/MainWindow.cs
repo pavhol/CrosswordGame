@@ -30,12 +30,12 @@ namespace crossword
             InitializeComponent();
             _word_list = word_list;
             startTime = DateTime.Now;
-            _size = size;
             timer1.Start();
         }
 
         public void StartGame(CrosswordSize size)
         {
+            _size = size;
             NewGame(size);
             startTime = DateTime.Now;
             Show();
@@ -210,5 +210,7 @@ namespace crossword
             Hide();
             e.Cancel = true; 
         }
+
+
     }
 }
