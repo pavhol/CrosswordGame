@@ -40,9 +40,15 @@ namespace crossword
             text.Margin = new Padding(0);
             text.TextAlign = HorizontalAlignment.Center;
             text.BackColor = System.Drawing.Color.LightGray;
-
             text.GotFocus += new EventHandler(delegate (Object sender, EventArgs a)
             {
+                if (MainWindow._hint && text.BackColor != System.Drawing.Color.MediumSeaGreen)
+                {
+                    MainWindow._hint = false;
+                    text.Text = answer.ToString();
+                    state = BlockState.Confirmed;
+                    text.BackColor = System.Drawing.Color.MediumSeaGreen;
+                }
                 text.SelectAll();
                 if (MainWindow.selectedWord != GetHorizontalWord() && MainWindow.selectedWord != GetVerticalWord())
                 {

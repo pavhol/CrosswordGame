@@ -32,12 +32,22 @@ namespace crossword
             List<DateTime> _smallTime = new List<DateTime>();
             List<DateTime> _mediumTime = new List<DateTime>();
             List<DateTime> _largeTime = new List<DateTime>();
+
             if (!File.Exists("SmallRecords.txt"))
-                File.Create("SmallRecords.txt");
+            { 
+                FileStream fs = File.Create("SmallRecords.txt");
+                fs.Close();
+            }
             if (!File.Exists("MediumRecords.txt"))
-                File.Create("MediumRecords.txt");
+            {
+                FileStream fs = File.Create("MediumRecords.txt");
+                fs.Close();
+            }
             if (!File.Exists("LargeRecords.txt"))
-                File.Create("LargeRecords.txt");
+            {
+                FileStream fs = File.Create("LargeRecords.txt");
+                fs.Close();
+            }
 
             using (StreamReader reader = new StreamReader("SmallRecords.txt"))
             {
@@ -48,6 +58,7 @@ namespace crossword
                     _smallTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
                 }
             }
+            
             _smallTime.Sort();
             using (StreamReader reader = new StreamReader("MediumRecords.txt"))
             {

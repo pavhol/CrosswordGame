@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows;
 using System.IO;
-
+using System.Configuration;
 namespace crossword
 {
     public partial class MainWindow : Form
@@ -20,8 +20,10 @@ namespace crossword
         public static MainWindow instance;
         CrosswordSize _size;
         Dictionary<string, string> _word_list;
-        private DateTime startTime; 
-
+        private DateTime startTime;
+        public static Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        public static int _balance;
+        public static bool _hint = false;
         public MainWindow(Dictionary<string, string> word_list)
         {
             activeCrossword = new Crossword();
@@ -31,7 +33,6 @@ namespace crossword
             startTime = DateTime.Now;
             timer1.Start();
         }
-
         public void StartGame(CrosswordSize size)
         {
             LoadingForm lf = new LoadingForm();
@@ -39,6 +40,15 @@ namespace crossword
             NewGame(size);
             startTime = DateTime.Now;
             lf.Close();
+            if (_config.AppSettings.Settings["_balance"] != null)
+            {
+                _balance = Convert.ToInt32(_config.AppSettings.Settings["_balance"].Value);
+            }
+            else
+            {
+                _balance = 0;
+            }
+            toolStripStatusLabel2.Text = _balance.ToString();
             ShowDialog();
         }
 
@@ -103,17 +113,21 @@ namespace crossword
                     {
                         case CrosswordSize.Small:
                             _filename = "SmallRecords.txt";
+                            _balance += 5;
                             break;
                         case CrosswordSize.Normal:
                             _filename = "MediumRecords.txt";
+                            _balance += 10;
                             break;
                         case CrosswordSize.Large:
                             _filename = "LargeRecords.txt";
+                            _balance += 20;
                             break;
                         default:
                             _filename = "";
                             break;
                     }
+                    toolStripStatusLabel2.Text = _balance.ToString();
                     using (StreamWriter writer = new StreamWriter(_filename, true))
                     {
                         
@@ -126,10 +140,21 @@ namespace crossword
                     throw;
                 }
                 Hide();
-                instance.Show();
             }
         }
+        public void WriteConfig()
+        {
+            if (_config.AppSettings.Settings["_balance"]==null)
+            {
+                _config.AppSettings.Settings.Add("_balance", _balance.ToString());
+            }
+            _config.AppSettings.Settings["_balance"].Value = _balance.ToString();
+            _config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
 
+        }
+
+        
         public void RemakeTable()
         {
             IBlock[,] blocks = activeCrossword.blocks;
@@ -208,7 +233,9 @@ namespace crossword
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
+            WriteConfig();
             Hide();
+
             e.Cancel = true; 
         }
 
@@ -220,6 +247,17 @@ namespace crossword
         private void сдатьсяToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Hide();
+        }
+
+        private void подсказкаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_balance < 5)
+            {
+                MessageBox.Show("Не хватает монет для подсказки (минимум 5)");
+                return;
+            }
+            _balance -= 5;
+            _hint = true;
         }
     }
 }
