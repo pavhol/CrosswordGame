@@ -126,7 +126,6 @@ namespace crossword
                     throw;
                 }
                 Hide();
-                instance.Show();
             }
         }
 

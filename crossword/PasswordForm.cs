@@ -17,7 +17,12 @@ namespace crossword
         public PasswordForm()
         {
             InitializeComponent();
+            SendToBack();
+            StartPosition = FormStartPosition.CenterScreen;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            ShowInTaskbar = false;
             IsPasswordCorrect = false;
+            this.MaximizeBox = false;
         }
 
         private void button1_Click(object sender, EventArgs e)

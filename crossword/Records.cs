@@ -18,6 +18,10 @@ namespace crossword
         public Records()
         {
             InitializeComponent();
+            this.AutoSize = false;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle; 
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.MaximizeBox = false;
         }
 
         private void Records_Load(object sender, EventArgs e)
