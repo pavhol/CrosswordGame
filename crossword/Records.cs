@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace crossword
 {
@@ -17,6 +18,10 @@ namespace crossword
         public Records()
         {
             InitializeComponent();
+            this.AutoSize = false;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle; 
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.MaximizeBox = false;
         }
 
         private void Records_Load(object sender, EventArgs e)
@@ -49,37 +54,49 @@ namespace crossword
                 fs.Close();
             }
 
-            using (StreamReader reader = new StreamReader("SmallRecords.txt"))
+            using (FileStream fs = File.OpenRead("SmallRecords.txt"))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader(fs))
                 {
-                    string timeString = line;
-                    _smallTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string timeString = line;
+                        _smallTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    }
                 }
             }
             
             _smallTime.Sort();
-            using (StreamReader reader = new StreamReader("MediumRecords.txt"))
+
+            using (FileStream fs = File.OpenRead("MediumRecords.txt"))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader(fs))
                 {
-                    string timeString = line;
-                    _mediumTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string timeString = line;
+                        _mediumTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    }
                 }
             }
             _mediumTime.Sort();
-            using (StreamReader reader = new StreamReader("LargeRecords.txt"))
+
+            using (FileStream fs = File.OpenRead("LargeRecords.txt")) 
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader(fs))
                 {
-                    string timeString = line;
-                    _largeTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string timeString = line;
+                        _largeTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    }
                 }
             }
             _largeTime.Sort();
+
             try
             {
                 for (int i = 0; i < _smallTime.Count; i++)

@@ -29,6 +29,9 @@ namespace crossword
             _crosswordGM = new MainWindow(_word_list);
             _crosswordGM.WindowState = FormWindowState.Maximized;
             _crosswordGM.FormBorderStyle = FormBorderStyle.None;
+
+            StartPosition = FormStartPosition.CenterScreen;
+            this.MaximizeBox = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -70,7 +73,9 @@ namespace crossword
             passFM.ShowDialog();
             if ( passFM.IsPasswordCorrect )
             {
-                // окно админа
+                EditWordList _edit_word_listW = new EditWordList(_word_list);
+                _edit_word_listW.ShowDialog();
+                SaveToFile();
             }
         }
 
@@ -94,6 +99,32 @@ namespace crossword
             catch (Exception ex)
             {
                 MessageBox.Show("Error loading word file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+            }
+        }
+
+        public void SaveToFile()
+        {
+            string currentDir = System.Environment.CurrentDirectory;
+            if (File.Exists(Path.Combine(currentDir, "WordList.xml")))
+                filename = Path.Combine(currentDir, "WordList.xml");
+
+            try
+            {
+                doc.DocumentElement.RemoveAll();
+                foreach (var item in _word_list)
+                {
+                    XmlNode word_node = doc.CreateElement("Word");
+                    word_node.Attributes.Append(doc.CreateAttribute("name")).Value = item.Key;
+                    word_node.Attributes.Append(doc.CreateAttribute("description")).Value = item.Value;
+                    doc.DocumentElement.AppendChild(word_node);
+                }
+
+                doc.Save(filename);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving word file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
             }
         }
