@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace crossword
 {
@@ -32,43 +33,67 @@ namespace crossword
             List<DateTime> _smallTime = new List<DateTime>();
             List<DateTime> _mediumTime = new List<DateTime>();
             List<DateTime> _largeTime = new List<DateTime>();
-            if (!File.Exists("SmallRecords.txt"))
-                File.Create("SmallRecords.txt");
-            if (!File.Exists("MediumRecords.txt"))
-                File.Create("MediumRecords.txt");
-            if (!File.Exists("LargeRecords.txt"))
-                File.Create("LargeRecords.txt");
 
-            using (StreamReader reader = new StreamReader("SmallRecords.txt"))
+            if (!File.Exists("SmallRecords.txt"))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                FileStream stream = File.Create("SmallRecords.txt");
+                stream.Close();
+            }
+
+            if (!File.Exists("MediumRecords.txt"))
+            {
+                FileStream stream = File.Create("MediumRecords.txt");
+                stream.Close();
+            }
+
+            if (!File.Exists("LargeRecords.txt"))
+            {
+                FileStream stream = File.Create("LargeRecords.txt");
+                stream.Close();
+            }
+
+            using (FileStream fs = File.OpenRead("SmallRecords.txt"))
+            {
+                using (StreamReader reader = new StreamReader(fs))
                 {
-                    string timeString = line;
-                    _smallTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string timeString = line;
+                        _smallTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    }
                 }
             }
             _smallTime.Sort();
-            using (StreamReader reader = new StreamReader("MediumRecords.txt"))
+
+            using (FileStream fs = File.OpenRead("MediumRecords.txt"))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader(fs))
                 {
-                    string timeString = line;
-                    _mediumTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string timeString = line;
+                        _mediumTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    }
                 }
             }
             _mediumTime.Sort();
-            using (StreamReader reader = new StreamReader("LargeRecords.txt"))
+
+            using (FileStream fs = File.OpenRead("LargeRecords.txt")) 
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader(fs))
                 {
-                    string timeString = line;
-                    _largeTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string timeString = line;
+                        _largeTime.Add(DateTime.ParseExact(timeString, "HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
+                    }
                 }
             }
             _largeTime.Sort();
+
             try
             {
                 for (int i = 0; i < _smallTime.Count; i++)
