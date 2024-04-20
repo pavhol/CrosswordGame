@@ -39,21 +39,19 @@ namespace crossword
             List<DateTime> _largeTime = new List<DateTime>();
 
             if (!File.Exists("SmallRecords.txt"))
-            {
-                FileStream stream = File.Create("SmallRecords.txt");
-                stream.Close();
+            { 
+                FileStream fs = File.Create("SmallRecords.txt");
+                fs.Close();
             }
-
             if (!File.Exists("MediumRecords.txt"))
             {
-                FileStream stream = File.Create("MediumRecords.txt");
-                stream.Close();
+                FileStream fs = File.Create("MediumRecords.txt");
+                fs.Close();
             }
-
             if (!File.Exists("LargeRecords.txt"))
             {
-                FileStream stream = File.Create("LargeRecords.txt");
-                stream.Close();
+                FileStream fs = File.Create("LargeRecords.txt");
+                fs.Close();
             }
 
             using (FileStream fs = File.OpenRead("SmallRecords.txt"))
@@ -68,6 +66,7 @@ namespace crossword
                     }
                 }
             }
+            
             _smallTime.Sort();
 
             using (FileStream fs = File.OpenRead("MediumRecords.txt"))

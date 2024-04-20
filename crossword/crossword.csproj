@@ -146,6 +146,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Crossword.ico" />
+    <None Include="Resources\doubloons %281%29.png" />
+    <None Include="Resources\doubloons.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

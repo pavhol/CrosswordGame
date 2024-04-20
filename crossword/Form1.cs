@@ -64,7 +64,6 @@ namespace crossword
         private void button4_Click(object sender, EventArgs e)
         {
             _crosswordGM.Close();
-            _records.Close();
             Close();
         }
         
