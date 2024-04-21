@@ -14,7 +14,7 @@ namespace crossword
 {
     public partial class MainWindow : Form
     {
-        Crossword activeCrossword;
+        Crossword _active_crossword;
         public static int blockSizePx = 21;
         public static Word selectedWord;
         public static MainWindow instance;
@@ -25,7 +25,7 @@ namespace crossword
         public static bool _hint = false;
         public MainWindow(Dictionary<string, string> word_list)
         {
-            activeCrossword = new Crossword();
+            _active_crossword = new Crossword();
             instance = this;
             InitializeComponent();
             _word_list = word_list;
@@ -52,11 +52,48 @@ namespace crossword
             ShowDialog();
         }
 
+        public void StartGame(IBlock[,] blocks, DateTime time)
+        {
+            Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            LoadingForm lf = new LoadingForm();
+            if ( !ContinueGame(blocks) )
+            {
+                MessageBox.Show("Не удалось открыть кроссворд!");
+                return;
+            }    
+                
+            startTime = DateTime.Now;
+            startTime = startTime.Add(-(time.TimeOfDay));
+            lf.Close();
+            if (_config.AppSettings.Settings["_balance"] != null)
+            {
+                _balance = Convert.ToInt32(_config.AppSettings.Settings["_balance"].Value);
+            }
+            else
+            {
+                _balance = 0;
+            }
+            toolStripStatusLabel2.Text = _balance.ToString();
+            ShowDialog();
+        }
+
         private void NewGame(CrosswordSize size)
         {
-            activeCrossword.GenerateNewCrossword(_word_list, size);
+            _active_crossword.GenerateNewCrossword(_word_list, size);
             RemakeTable();
             RemakeWords();
+        }
+
+        private bool ContinueGame(IBlock[,] blocks)
+        {
+            if (!_active_crossword.ContinueCrossword(_word_list, blocks))
+                return false;
+            else
+            {
+                RemakeTable();
+                RemakeWords();
+                return true;
+            }
         }
 
         public void RemakeWords()
@@ -64,7 +101,7 @@ namespace crossword
             listBoxhorizontal.Items.Clear();
             listBoxvertical.Items.Clear();
 
-            List<Word> words = activeCrossword.words;
+            List<Word> words = _active_crossword.words;
             for (int i = 0; i < words.Count; ++i)
             {
                 if (words[i].GetDirection() == Direction.Horizontal)
@@ -158,7 +195,7 @@ namespace crossword
         
         public void RemakeTable()
         {
-            IBlock[,] blocks = activeCrossword.blocks;
+            IBlock[,] blocks = _active_crossword._blocks;
 
             int rowcount = blocks.GetLength(0);
             int columncount = blocks.GetLength(1);
@@ -242,6 +279,57 @@ namespace crossword
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string directory_path = @"Saved";
+            if (!Directory.Exists(directory_path))
+                Directory.CreateDirectory(directory_path);
+
+            int num = 1;
+            while(true)
+            {
+                string file_name = "Crossword" + Convert.ToString(num) + ".crs";
+                if (!File.Exists(Path.Combine(directory_path, file_name)))
+                {
+                    FileStream fs = File.Create(Path.Combine(directory_path, file_name));
+                    fs.Close();
+                    MessageBox.Show("Кроссворд сохранен под именем " + file_name + "!");
+                    break;
+                }
+
+                ++num;
+            }
+
+            IBlock[,] active_blocks = _active_crossword._blocks;
+            string fileName = "Crossword" + Convert.ToString(num) + ".crs";
+
+            using (FileStream fs = File.OpenWrite(Path.Combine(directory_path, fileName)))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    TimeSpan elapsedTime = DateTime.Now - startTime;
+                    sw.WriteLine(elapsedTime.ToString(@"hh\:mm\:ss"));
+                    for (int i = 0; i < active_blocks.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < active_blocks.GetLength(1); j++)
+                        {
+                            IBlock block = active_blocks[i, j];
+                            if (block is BlackBlock)
+                            {
+                                sw.Write("#");
+                            }
+                            else if (block is CharacterBlock)
+                            {
+                                if (block.IsCorrectAnswer())
+                                    sw.Write(block.GetAnswer().ToString().ToUpper());
+                                else
+                                    sw.Write(block.GetAnswer().ToString().ToLower());
+                            }
+                        }
+
+                        sw.WriteLine();
+                    }
+                }
+            }
+
             Hide();
         }
 

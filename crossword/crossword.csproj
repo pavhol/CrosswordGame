@@ -99,6 +99,12 @@
     <Compile Include="Records.Designer.cs">
       <DependentUpon>Records.cs</DependentUpon>
     </Compile>
+    <Compile Include="SavedCrosswords.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SavedCrosswords.Designer.cs">
+      <DependentUpon>SavedCrosswords.cs</DependentUpon>
+    </Compile>
     <Compile Include="Word.cs" />
     <EmbeddedResource Include="EditWordList.resx">
       <DependentUpon>EditWordList.cs</DependentUpon>
@@ -131,6 +137,9 @@
     <EmbeddedResource Include="Records.resx">
       <DependentUpon>Records.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SavedCrosswords.resx">
+      <DependentUpon>SavedCrosswords.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -146,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Crossword.ico" />
+    <Content Include="Resources\crossword.ico" />
     <None Include="Resources\doubloons %281%29.png" />
     <None Include="Resources\doubloons.png" />
   </ItemGroup>

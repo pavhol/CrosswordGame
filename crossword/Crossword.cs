@@ -23,7 +23,7 @@ namespace crossword
         private int _ysz;
 
         CrosswordSize _size;
-        public IBlock[,] blocks { get; private set; }
+        public IBlock[,] _blocks { get; private set; }
         Dictionary<string, string> _word_list;
         public List<Word> words { get; private set; }
 
@@ -45,7 +45,7 @@ namespace crossword
         // проверяем, решен ли кроссворд
         public bool IsSolved()
         {
-            foreach (var block in blocks)
+            foreach (var block in _blocks)
             {
                 if (!block.IsCorrectAnswer())
                     return false;
@@ -71,6 +71,37 @@ namespace crossword
             return new Word(wordName, description, rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
         }
 
+        // восстановление кроссворда
+        public bool ContinueCrossword(Dictionary<string, string> word_list, IBlock[,] blocks)
+        {
+            _word_list = new Dictionary<string, string>(word_list);
+            switch (blocks.Length)
+            {
+                case 17:
+                    _size = CrosswordSize.Small;
+                    break;
+                case 24:
+                    _size = CrosswordSize.Normal;
+                    break;
+                case 31:
+                    _size = CrosswordSize.Large;
+                    break;
+            }
+
+            _xsz = _ysz = blocks.Length;
+            words.Clear();
+            _blocks = blocks;
+
+            // код продолжения кроссворда
+            // создаем слова( не рандомное направление, а выбранное )
+            // размещаем в определнном месте
+            // можно просто размещать, а дальше на нужные буквы как в подсказках прописать открытие
+
+
+            // bool - проверка, есть ли слово в словаре, если нету, то false, ведь словарь мог уже обновиться
+            return false;
+        }
+
         // генерация кроссворда
         public void GenerateNewCrossword(Dictionary<string, string> word_list, CrosswordSize size)
         {
@@ -90,7 +121,7 @@ namespace crossword
             }
 
             words.Clear();
-            blocks = new IBlock[_xsz, _ysz];
+            _blocks = new IBlock[_xsz, _ysz];
             if (_word_list.Count < 4)
             {
                 MessageBox.Show("Слишком мало слов в словаре для составления кроссворда.");
@@ -150,12 +181,12 @@ namespace crossword
             }
 
             // дозаполняем все пустые клетки черными блоками с любым направлением
-            for (int row = 0; row < blocks.GetLength(0); row++)
+            for (int row = 0; row < _blocks.GetLength(0); row++)
             {
-                for (int col = 0; col < blocks.GetLength(1); col++)
+                for (int col = 0; col < _blocks.GetLength(1); col++)
                 {
-                    if (blocks[row, col] == null)
-                        blocks[row, col] = new BlackBlock();
+                    if (_blocks[row, col] == null)
+                        _blocks[row, col] = new BlackBlock();
                 }
             }
         }
@@ -197,10 +228,10 @@ namespace crossword
         // ставим соседним точкам, что можно записывать только в противоположном направлении
         private void ProhibitOverwrite(Point p, Direction dir)
         {
-            if (blocks[p.X, p.Y] == null)
-                blocks[p.X, p.Y] = new BlackBlock(dir == Direction.Horizontal ? BlockOverwrite.VerticalOnly : BlockOverwrite.HorizontalOnly);
+            if (_blocks[p.X, p.Y] == null)
+                _blocks[p.X, p.Y] = new BlackBlock(dir == Direction.Horizontal ? BlockOverwrite.VerticalOnly : BlockOverwrite.HorizontalOnly);
             else
-                blocks[p.X, p.Y].RemoveOverwritePossibility(dir);
+                _blocks[p.X, p.Y].RemoveOverwritePossibility(dir);
         }
 
         // Размещение слова, блокирование соседних ячеек
@@ -209,16 +240,16 @@ namespace crossword
             Point before = GetWordCoord(word, start, -1);
             Point after = GetWordCoord(word, start, word.GetLength());
 
-            blocks[before.X, before.Y] = new BlackBlock(BlockOverwrite.None);
-            blocks[after.X, after.Y] = new BlackBlock(BlockOverwrite.None);
+            _blocks[before.X, before.Y] = new BlackBlock(BlockOverwrite.None);
+            _blocks[after.X, after.Y] = new BlackBlock(BlockOverwrite.None);
 
             for (int i = 0; i < word.GetLength(); i++)
             {
                 Point p = GetWordCoord(word, start, i);
-                if (blocks[p.X, p.Y] == null || blocks[p.X, p.Y] is BlackBlock)
-                    blocks[p.X, p.Y] = new CharacterBlock(word.GetCorrectWord()[i]);
+                if (_blocks[p.X, p.Y] == null || _blocks[p.X, p.Y] is BlackBlock)
+                    _blocks[p.X, p.Y] = new CharacterBlock(word.GetCorrectWord()[i]);
 
-                word.SetSharedBlock(blocks[p.X, p.Y] as CharacterBlock, i);
+                word.SetSharedBlock(_blocks[p.X, p.Y] as CharacterBlock, i);
                 ProhibitOverwrite(GetWordCoord(word, start, i, 1), word.GetDirection());
                 ProhibitOverwrite(GetWordCoord(word, start, i, -1), word.GetDirection());
             }
@@ -233,14 +264,14 @@ namespace crossword
                 return false;
 
             Point before = GetWordCoord(word, start, -1);
-            if (blocks[before.X, before.Y] != null && blocks[before.X, before.Y].GetAnswer() != '#')
+            if (_blocks[before.X, before.Y] != null && _blocks[before.X, before.Y].GetAnswer() != '#')
                 return false;
 
             Point after = GetWordCoord(word, start, word.GetLength());
-            if (after.X >= blocks.GetLength(0) || after.Y >= blocks.GetLength(1))
+            if (after.X >= _blocks.GetLength(0) || after.Y >= _blocks.GetLength(1))
                 return false;
 
-            if (blocks[after.X, after.Y] != null && blocks[after.X, after.Y].GetAnswer() != '#')
+            if (_blocks[after.X, after.Y] != null && _blocks[after.X, after.Y].GetAnswer() != '#')
                 return false;
 
             return true;
@@ -256,11 +287,11 @@ namespace crossword
             for (int i = 0; i < word.GetLength(); ++i)
             {
                 Point p = GetWordCoord(word, start, i);
-                if (blocks[p.X, p.Y] != null)
+                if (_blocks[p.X, p.Y] != null)
                 {
-                    if (blocks[p.X, p.Y].GetAnswer() == word.GetCorrectWord()[i])
+                    if (_blocks[p.X, p.Y].GetAnswer() == word.GetCorrectWord()[i])
                         intersections++;
-                    else if (!blocks[p.X, p.Y].CanOverwrite(word.GetDirection()))
+                    else if (!_blocks[p.X, p.Y].CanOverwrite(word.GetDirection()))
                         return -1;
                 }
             }

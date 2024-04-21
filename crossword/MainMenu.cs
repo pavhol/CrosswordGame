@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.IO;
+using System.Globalization;
 
 namespace crossword
 {
@@ -29,7 +30,6 @@ namespace crossword
             _crosswordGM = new MainWindow(_word_list);
             _crosswordGM.WindowState = FormWindowState.Maximized;
             _crosswordGM.FormBorderStyle = FormBorderStyle.None;
-
             StartPosition = FormStartPosition.CenterScreen;
             this.MaximizeBox = false;
         }
@@ -126,6 +126,67 @@ namespace crossword
             {
                 MessageBox.Show("Error saving word file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string directory_path = @"Saved";
+            if (!Directory.Exists(directory_path))
+                Directory.CreateDirectory(directory_path);
+
+            string[] files = Directory.GetFiles(directory_path);
+            if (files.Length == 0)
+            {
+                MessageBox.Show("Сохраненные уровни отсутствуют!");
+                return;
+            }
+
+            SavedCrosswords saved_crosswords = new SavedCrosswords();
+            saved_crosswords.ShowDialog();
+            if ( saved_crosswords.file_name.Length > 0)
+            {
+                IBlock[,] blocks;
+                DateTime time;
+                using (FileStream fs = File.OpenRead(Path.Combine(directory_path, saved_crosswords.file_name)))
+                {
+                    using (StreamReader sr = new StreamReader(fs))
+                    {
+                        string time_string = sr.ReadLine();
+                        time = DateTime.ParseExact(time_string, @"hh\:mm\:ss", DateTimeFormatInfo.CurrentInfo);
+
+                        List<string> lines = new List<string>();
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                            lines.Add(line);
+
+                        blocks = new IBlock[lines.Count, lines[0].Length];
+                        for (int i = 0; i < lines.Count; i++)
+                        {
+                            for (int j = 0; j < lines[i].Length; j++)
+                            {
+                                if ( lines[i][j] == '#')
+                                    blocks[i, j] = new BlackBlock();
+                                else
+                                {
+                                    if ( char.IsUpper(lines[i][j]) )
+                                    {
+                                        blocks[i, j] = new CharacterBlock(char.ToUpper(lines[i][j]));
+                                        blocks[i, j].SetConfirmed();
+                                    }
+                                    else
+                                        blocks[i, j] = new CharacterBlock(char.ToUpper(lines[i][j]));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                File.Delete(Path.Combine(directory_path, saved_crosswords.file_name));
+
+                Hide();
+                _crosswordGM.StartGame(blocks, time);
+                Show();
             }
         }
     }
