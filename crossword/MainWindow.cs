@@ -242,7 +242,7 @@ namespace crossword
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Hide();
         }
 
         private void сдатьсяToolStripMenuItem_Click(object sender, EventArgs e)
@@ -252,13 +252,22 @@ namespace crossword
 
         private void подсказкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_balance < 5)
+            if (_hint)
             {
-                MessageBox.Show("Не хватает монет для подсказки (минимум 5)");
+                _balance += 5;
+                toolStripStatusLabel2.Text = _balance.ToString();
+                _hint = false;
                 return;
             }
-            _balance -= 5;
-            _hint = true;
+
+            if (_balance < 5)
+                MessageBox.Show("Не хватает монет для подсказки (минимум 5)");
+            else
+            {
+                _balance -= 5;
+                toolStripStatusLabel2.Text = _balance.ToString();
+                _hint = true;
+            }
         }
     }
 }

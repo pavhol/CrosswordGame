@@ -37,6 +37,7 @@
             this.hintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listBoxvertical = new System.Windows.Forms.ListBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -44,12 +45,11 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.сдатьсяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.подсказкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label3 = new System.Windows.Forms.Label();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.UI_TablePanel.SuspendLayout();
             this.Hint.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -69,7 +69,7 @@
             this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.UI_TablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 1170F));
             this.UI_TablePanel.Controls.Add(this.textBox1, 0, 0);
-            this.UI_TablePanel.Location = new System.Drawing.Point(35, 42);
+            this.UI_TablePanel.Location = new System.Drawing.Point(9, 28);
             this.UI_TablePanel.Name = "UI_TablePanel";
             this.UI_TablePanel.RowCount = 2;
             this.UI_TablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
@@ -136,6 +136,7 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(42)))), ((int)(((byte)(39)))));
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 3);
@@ -157,6 +158,16 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(658, 741);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(3, 335);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(146, 24);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "По вертикали:";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -169,6 +180,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(3, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(167, 25);
@@ -187,7 +199,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 692F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 747F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1338, 747);
             this.tableLayoutPanel2.TabIndex = 5;
             // 
@@ -223,15 +235,9 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(151, 20);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Image = global::crossword.Properties.Resources.doubloons__1_;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(171, 20);
-            this.toolStripStatusLabel2.Text = "toolStripStatusLabel2";
-            // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.сдатьсяToolStripMenuItem,
@@ -252,6 +258,7 @@
             // 
             // сохранитьToolStripMenuItem
             // 
+            this.сохранитьToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
             this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(97, 24);
             this.сохранитьToolStripMenuItem.Text = "Сохранить";
@@ -264,14 +271,12 @@
             this.подсказкаToolStripMenuItem.Text = "Подсказка";
             this.подсказкаToolStripMenuItem.Click += new System.EventHandler(this.подсказкаToolStripMenuItem_Click);
             // 
-            // label3
+            // toolStripStatusLabel2
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 335);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(146, 24);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "По вертикали:";
+            this.toolStripStatusLabel2.Image = global::crossword.Properties.Resources.doubloons__1_;
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(171, 20);
+            this.toolStripStatusLabel2.Text = "toolStripStatusLabel2";
             // 
             // MainWindow
             // 
@@ -287,7 +292,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainWindow";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Text = "Crossword: The Game";
+            this.Text = "Уровень:";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.UI_TablePanel.ResumeLayout(false);
             this.UI_TablePanel.PerformLayout();

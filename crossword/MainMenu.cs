@@ -12,7 +12,7 @@ using System.IO;
 
 namespace crossword
 {
-    public partial class Form1 : Form
+    public partial class MainMenu : Form
     {
         private MainWindow _crosswordGM;
         private Records _records;
@@ -20,7 +20,7 @@ namespace crossword
         private string filename;
         Dictionary<string, string> _word_list;
 
-        public Form1()
+        public MainMenu()
         {
             InitializeComponent();
             _word_list = new Dictionary<string, string>();
