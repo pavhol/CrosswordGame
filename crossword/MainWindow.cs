@@ -52,11 +52,11 @@ namespace crossword
             ShowDialog();
         }
 
-        public void StartGame(IBlock[,] blocks, DateTime time)
+        public void StartGame(IBlock[,] blocks, DateTime time, List<string> words, List<string> directions)
         {
             Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             LoadingForm lf = new LoadingForm();
-            if ( !ContinueGame(blocks) )
+            if ( !ContinueGame(blocks, words, directions) )
             {
                 MessageBox.Show("Не удалось открыть кроссворд!");
                 return;
@@ -84,9 +84,9 @@ namespace crossword
             RemakeWords();
         }
 
-        private bool ContinueGame(IBlock[,] blocks)
+        private bool ContinueGame(IBlock[,] blocks, List<string> words, List<string> directions)
         {
-            if (!_active_crossword.ContinueCrossword(_word_list, blocks))
+            if (!_active_crossword.ContinueCrossword(_word_list, blocks, words,directions))
                 return false;
             else
             {
@@ -324,9 +324,9 @@ namespace crossword
                                     sw.Write(block.GetAnswer().ToString().ToLower());
                             }
                         }
-
                         sw.WriteLine();
                     }
+                    
                 }
             }
 

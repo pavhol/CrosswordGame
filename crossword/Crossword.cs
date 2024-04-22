@@ -72,7 +72,7 @@ namespace crossword
         }
 
         // восстановление кроссворда
-        public bool ContinueCrossword(Dictionary<string, string> word_list, IBlock[,] blocks)
+        public bool ContinueCrossword(Dictionary<string, string> word_list, IBlock[,] blocks, List<string> lstwords, List<string> directions)
         {
             _word_list = new Dictionary<string, string>(word_list);
             switch (blocks.Length)
@@ -89,9 +89,19 @@ namespace crossword
             }
 
             _xsz = _ysz = blocks.Length;
-            words.Clear();
             _blocks = blocks;
-
+            words.Clear();
+            for (int i = 0; i < lstwords.Count; i++)
+            {
+                if (directions[i]=="Vertical")
+                {
+                    words.Add(new Word(lstwords[i].ToLower(), _word_list[lstwords[i].ToLower()], Direction.Vertical));
+                }
+                else
+                {
+                    words.Add(new Word(lstwords[i].ToLower(), _word_list[lstwords[i].ToLower()], Direction.Horizontal));
+                }
+            }
             // код продолжения кроссворда
             // создаем слова( не рандомное направление, а выбранное )
             // размещаем в определнном месте
@@ -99,7 +109,7 @@ namespace crossword
 
 
             // bool - проверка, есть ли слово в словаре, если нету, то false, ведь словарь мог уже обновиться
-            return false;
+            return true;
         }
 
         // генерация кроссворда

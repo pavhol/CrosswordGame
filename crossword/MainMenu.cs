@@ -93,7 +93,7 @@ namespace crossword
                 {
                     var wordName = wordNode.Attributes["name"].Value;
                     var wordDescription = wordNode.Attributes["description"].Value;
-                    _word_list.Add(wordName, wordDescription);
+                    _word_list.Add(wordName.ToLower(), wordDescription);
                 }
             }
             catch (Exception ex)
@@ -148,16 +148,19 @@ namespace crossword
             {
                 IBlock[,] blocks;
                 DateTime time;
+                List<string> words = new List<string>();
+                List<string> directions = new List<string>();
                 using (FileStream fs = File.OpenRead(Path.Combine(directory_path, saved_crosswords.file_name)))
                 {
-                    using (StreamReader sr = new StreamReader(fs))
+                    using (StreamReader reader = new StreamReader(fs))
                     {
-                        string time_string = sr.ReadLine();
+
+                        string time_string = reader.ReadLine();
                         time = DateTime.ParseExact(time_string, @"hh\:mm\:ss", DateTimeFormatInfo.CurrentInfo);
 
                         List<string> lines = new List<string>();
                         string line;
-                        while ((line = sr.ReadLine()) != null)
+                        while ((line = reader.ReadLine()) != null)
                             lines.Add(line);
 
                         blocks = new IBlock[lines.Count, lines[0].Length];
@@ -175,17 +178,73 @@ namespace crossword
                                         blocks[i, j].SetConfirmed();
                                     }
                                     else
+                                    {
                                         blocks[i, j] = new CharacterBlock(char.ToUpper(lines[i][j]));
+                                    }
                                 }
                             }
                         }
+                            // Поиск слов по горизонтали
+                        foreach (string row in lines)
+                        {
+                            StringBuilder word = new StringBuilder();
+                            for (int i = 0; i < row.Length; i++)
+                            {
+                                if (row[i] != '#')
+                                {
+                                    word.Append(row[i]);
+                                }
+                                else
+                                {
+                                    if (word.Length > 2)
+                                    {
+                                        words.Add(word.ToString());
+                                        directions.Add("Horizontal");
+                                    }
+                                    word.Clear();
+                                }
+                            }
+                            if (word.Length > 2)
+                            {
+                                words.Add(word.ToString());
+                                directions.Add("Horizontal");
+                            }
+                        }
+
+                        // Поиск слов по вертикали
+                        for (int col = 0; col < lines[0].Length; col++)
+                        {
+                            StringBuilder word = new StringBuilder();
+                            foreach (string row in lines)
+                            {
+                                if (row.Length > col && row[col] != '#')
+                                {
+                                    word.Append(row[col]);
+                                }
+                                else
+                                {
+                                    if (word.Length > 2)
+                                    {
+                                        words.Add(word.ToString());
+                                        directions.Add("Vertical");
+                                    }
+                                    word.Clear();
+                                }
+                            }
+                            if (word.Length > 2)
+                            {
+                                words.Add(word.ToString());
+                                directions.Add("Vertical");
+                            }
+                        }
+
                     }
                 }
 
                 File.Delete(Path.Combine(directory_path, saved_crosswords.file_name));
 
                 Hide();
-                _crosswordGM.StartGame(blocks, time);
+                _crosswordGM.StartGame(blocks, time, words, directions);
                 Show();
             }
         }
