@@ -66,12 +66,12 @@ namespace crossword
             _crosswordGM.Close();
             Close();
         }
-        
+
         private void button5_Click(object sender, EventArgs e)
         {
             PasswordForm passFM = new PasswordForm();
             passFM.ShowDialog();
-            if ( passFM.IsPasswordCorrect )
+            if (passFM.IsPasswordCorrect)
             {
                 EditWordList _edit_word_listW = new EditWordList(_word_list);
                 _edit_word_listW.ShowDialog();
@@ -144,12 +144,13 @@ namespace crossword
 
             SavedCrosswords saved_crosswords = new SavedCrosswords();
             saved_crosswords.ShowDialog();
-            if ( saved_crosswords.file_name.Length > 0)
+            if (saved_crosswords.file_name.Length > 0)
             {
                 IBlock[,] blocks;
                 DateTime time;
                 List<string> words = new List<string>();
                 List<string> directions = new List<string>();
+                List<Point> startpoints = new List<Point>();
                 using (FileStream fs = File.OpenRead(Path.Combine(directory_path, saved_crosswords.file_name)))
                 {
                     using (StreamReader reader = new StreamReader(fs))
@@ -157,7 +158,6 @@ namespace crossword
 
                         string time_string = reader.ReadLine();
                         time = DateTime.ParseExact(time_string, @"hh\:mm\:ss", DateTimeFormatInfo.CurrentInfo);
-
                         List<string> lines = new List<string>();
                         string line;
                         while ((line = reader.ReadLine()) != null)
@@ -168,11 +168,11 @@ namespace crossword
                         {
                             for (int j = 0; j < lines[i].Length; j++)
                             {
-                                if ( lines[i][j] == '#')
+                                if (lines[i][j] == '#')
                                     blocks[i, j] = new BlackBlock();
                                 else
                                 {
-                                    if ( char.IsUpper(lines[i][j]) )
+                                    if (char.IsUpper(lines[i][j]))
                                     {
                                         blocks[i, j] = new CharacterBlock(char.ToUpper(lines[i][j]));
                                         blocks[i, j].SetConfirmed();
@@ -184,7 +184,8 @@ namespace crossword
                                 }
                             }
                         }
-                            // Поиск слов по горизонтали
+                        // Поиск слов по горизонтали
+                        int k = 0;
                         foreach (string row in lines)
                         {
                             StringBuilder word = new StringBuilder();
@@ -199,18 +200,15 @@ namespace crossword
                                     if (word.Length > 2)
                                     {
                                         words.Add(word.ToString());
+                                        startpoints.Add(new Point(i - word.Length, k));
                                         directions.Add("Horizontal");
                                     }
                                     word.Clear();
                                 }
                             }
-                            if (word.Length > 2)
-                            {
-                                words.Add(word.ToString());
-                                directions.Add("Horizontal");
-                            }
+                            k++;
                         }
-
+                        k = 0;
                         // Поиск слов по вертикали
                         for (int col = 0; col < lines[0].Length; col++)
                         {
@@ -226,16 +224,14 @@ namespace crossword
                                     if (word.Length > 2)
                                     {
                                         words.Add(word.ToString());
+                                        startpoints.Add(new Point(col, k - word.Length));
                                         directions.Add("Vertical");
                                     }
                                     word.Clear();
                                 }
+                                ++k;
                             }
-                            if (word.Length > 2)
-                            {
-                                words.Add(word.ToString());
-                                directions.Add("Vertical");
-                            }
+                            k = 0;
                         }
 
                     }
@@ -244,7 +240,7 @@ namespace crossword
                 File.Delete(Path.Combine(directory_path, saved_crosswords.file_name));
 
                 Hide();
-                _crosswordGM.StartGame(blocks, time, words, directions);
+                _crosswordGM.StartGame(blocks, time, words, directions, startpoints);
                 Show();
             }
         }

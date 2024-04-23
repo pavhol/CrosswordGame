@@ -72,7 +72,7 @@ namespace crossword
         }
 
         // восстановление кроссворда
-        public bool ContinueCrossword(Dictionary<string, string> word_list, IBlock[,] blocks, List<string> lstwords, List<string> directions)
+        public bool ContinueCrossword(Dictionary<string, string> word_list, IBlock[,] blocks, List<string> lstwords, List<string> directions, List<Point> startpoints)
         {
             _word_list = new Dictionary<string, string>(word_list);
             switch (blocks.Length)
@@ -93,7 +93,7 @@ namespace crossword
             words.Clear();
             for (int i = 0; i < lstwords.Count; i++)
             {
-                if (directions[i]=="Vertical")
+                if (directions[i] == "Horizontal")
                 {
                     words.Add(new Word(lstwords[i].ToLower(), _word_list[lstwords[i].ToLower()], Direction.Vertical));
                 }
@@ -102,6 +102,8 @@ namespace crossword
                     words.Add(new Word(lstwords[i].ToLower(), _word_list[lstwords[i].ToLower()], Direction.Horizontal));
                 }
             }
+            PlaceWords(words, startpoints);
+            return true;
             // код продолжения кроссворда
             // создаем слова( не рандомное направление, а выбранное )
             // размещаем в определнном месте
@@ -109,8 +111,44 @@ namespace crossword
 
 
             // bool - проверка, есть ли слово в словаре, если нету, то false, ведь словарь мог уже обновиться
-            return true;
         }
+
+        private void PlaceWords(List<Word> words, List<Point> startingPoints)
+        {
+            if (words.Count != startingPoints.Count)
+            {
+                throw new ArgumentException("Number of words must match the number of starting points.");
+            }
+
+            // Create a temporary grid to track block occupancy
+            IBlock[,] tempGrid = new IBlock[_blocks.GetLength(0), _blocks.GetLength(1)];
+
+            for (int i = 0; i < words.Count; i++)
+            {
+                Word word = words[i];
+                Point startingPoint = startingPoints[i];
+
+                PlaceWordManually(word, startingPoint, tempGrid);
+            }
+        }
+
+        private void PlaceWordManually(Word word, Point startingPoint, IBlock[,] tempGrid)
+        {
+            // Get word direction and length
+            Direction direction = word.GetDirection();
+            int wordLength = word.GetLength();
+
+            // Place word characters on the grid and update tempGrid
+            for (int i = 0; i < wordLength; i++)
+            {
+                Point currentPoint = GetPointFromStartingPoint(startingPoint, direction, i);
+                char letter = word.GetCorrectWord()[i];
+
+                _blocks[currentPoint.Y, currentPoint.X] = new CharacterBlock(letter);
+                tempGrid[currentPoint.Y, currentPoint.X] = _blocks[currentPoint.Y, currentPoint.X];
+            }
+        }
+
 
         // генерация кроссворда
         public void GenerateNewCrossword(Dictionary<string, string> word_list, CrosswordSize size)
@@ -138,7 +176,7 @@ namespace crossword
                 return;
             }
 
-            Random rand = new Random();            
+            Random rand = new Random();
             while (true)
             {
                 // положение первого слова в пределах 30 - 70 % от размеров поля
@@ -198,6 +236,18 @@ namespace crossword
                     if (_blocks[row, col] == null)
                         _blocks[row, col] = new BlackBlock();
                 }
+            }
+        }
+        private Point GetPointFromStartingPoint(Point startingPoint, Direction direction, int offset)
+        {
+            switch (direction)
+            {
+                case Direction.Horizontal:
+                    return new Point(startingPoint.X + offset, startingPoint.Y);
+                case Direction.Vertical:
+                    return new Point(startingPoint.X, startingPoint.Y + offset);
+                default:
+                    throw new ArgumentException("Invalid direction: " + direction);
             }
         }
 
@@ -305,7 +355,7 @@ namespace crossword
                         return -1;
                 }
             }
-          
+
             return intersections;
         }
     }
