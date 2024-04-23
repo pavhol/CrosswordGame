@@ -42,25 +42,10 @@ namespace crossword
             text.BackColor = System.Drawing.Color.LightGray;
             text.GotFocus += new EventHandler(delegate (Object sender, EventArgs a)
             {
-                if (MainWindow._hint && text.BackColor != System.Drawing.Color.MediumSeaGreen)
-                {
-                    MainWindow._hint = false;
-                    text.Text = answer.ToString();
-                    state = BlockState.Confirmed;
-                    text.BackColor = System.Drawing.Color.MediumSeaGreen;
-                }
-                text.SelectAll();
-                if (MainWindow.selectedWord != GetHorizontalWord() && MainWindow.selectedWord != GetVerticalWord())
-                {
-                    if (IsPartOfVerticalWord() && !GetVerticalWord().IsFinished())
-                    {
-                        MainWindow.instance.SelectWord(GetVerticalWord());
-                    }
-                    else if (IsPartOfHorizontalWord() && !GetHorizontalWord().IsFinished())
-                    {
-                        MainWindow.instance.SelectWord(GetHorizontalWord());
-                    }
-                }
+                if (MainWindow._hint)
+                    SetSolved();
+
+                MainWindow._hint = false;
             });
 
             text.TextChanged += new EventHandler(delegate (Object sender, EventArgs a)
@@ -91,6 +76,29 @@ namespace crossword
                 }
             });
         }
+
+        public void SetSolved()
+        {
+            if (text.BackColor != System.Drawing.Color.MediumSeaGreen)
+            {
+                text.Text = answer.ToString();
+                state = BlockState.Confirmed;
+                text.BackColor = System.Drawing.Color.MediumSeaGreen;
+            }
+            text.SelectAll();
+            if (MainWindow.selectedWord != GetHorizontalWord() && MainWindow.selectedWord != GetVerticalWord())
+            {
+                if (IsPartOfVerticalWord() && !GetVerticalWord().IsFinished())
+                {
+                    MainWindow.instance.SelectWord(GetVerticalWord());
+                }
+                else if (IsPartOfHorizontalWord() && !GetHorizontalWord().IsFinished())
+                {
+                    MainWindow.instance.SelectWord(GetHorizontalWord());
+                }
+            }
+        }
+
         public void SetAnswer(char answer)
         {
             this.answer = answer;

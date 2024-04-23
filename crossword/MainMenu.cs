@@ -200,7 +200,7 @@ namespace crossword
                                     if (word.Length > 2)
                                     {
                                         words.Add(word.ToString());
-                                        startpoints.Add(new Point(i - word.Length, k));
+                                        startpoints.Add(new Point(k, i - word.Length));
                                         directions.Add("Horizontal");
                                     }
                                     word.Clear();
@@ -224,7 +224,7 @@ namespace crossword
                                     if (word.Length > 2)
                                     {
                                         words.Add(word.ToString());
-                                        startpoints.Add(new Point(col, k - word.Length));
+                                        startpoints.Add(new Point(k - word.Length, col));
                                         directions.Add("Vertical");
                                     }
                                     word.Clear();

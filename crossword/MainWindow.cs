@@ -56,12 +56,24 @@ namespace crossword
         {
             Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             LoadingForm lf = new LoadingForm();
-            if (!ContinueGame(blocks, words, directions, startpoints))
+
+            bool is_used = true;
+            foreach (var item in words)
+            {
+                if (!_word_list.Keys.Contains(item.ToLower()))
+                {
+                    is_used = false;
+                    break;
+                }
+            }
+
+            if (is_used == false)
             {
                 MessageBox.Show("Не удалось открыть кроссворд!");
                 return;
             }
 
+            ContinueGame(blocks, words, directions, startpoints);
             startTime = DateTime.Now;
             startTime = startTime.Add(-(time.TimeOfDay));
             lf.Close();
@@ -84,17 +96,12 @@ namespace crossword
             RemakeWords();
         }
 
-        private bool ContinueGame(IBlock[,] blocks, List<string> words, List<string> directions, List<Point> startpoints)
+        private void ContinueGame(IBlock[,] blocks, List<string> words, List<string> directions, List<Point> startpoints)
         {
-            if (!_active_crossword.ContinueCrossword(_word_list, blocks, words, directions, startpoints))
-                return false;
-            else
-            {
-
-                RemakeTable();
-                RemakeWords();
-                return true;
-            }
+            _active_crossword.ContinueCrossword(_word_list, blocks, words, directions, startpoints);
+            RemakeTable();
+            RemakeWords();
+            _active_crossword.UpdateSolved(words, startpoints);
         }
 
         public void RemakeWords()

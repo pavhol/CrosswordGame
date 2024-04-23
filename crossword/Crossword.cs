@@ -72,10 +72,23 @@ namespace crossword
         }
 
         // восстановление кроссворда
-        public bool ContinueCrossword(Dictionary<string, string> word_list, IBlock[,] blocks, List<string> lstwords, List<string> directions, List<Point> startpoints)
+        public void ContinueCrossword(Dictionary<string, string> word_list, IBlock[,] blocks, List<string> lstwords, List<string> directions, List<Point> startpoints)
         {
+            // убираем недозаполненные слова
+            for (int i = 0; i < lstwords.Count; ++i)
+            {
+                for (int j = 0; j < lstwords[i].Length; ++j)
+                {
+                    if (char.IsLower(lstwords[i][j]))
+                    {
+                        lstwords[i] = lstwords[i].ToLower();
+                        break;
+                    }
+                }
+            }
+
             _word_list = new Dictionary<string, string>(word_list);
-            switch (blocks.Length)
+            switch (blocks.GetLength(0))
             {
                 case 17:
                     _size = CrosswordSize.Small;
@@ -88,67 +101,41 @@ namespace crossword
                     break;
             }
 
-            _xsz = _ysz = blocks.Length;
-            _blocks = blocks;
+            _xsz = _ysz = blocks.GetLength(0);
+            _blocks = new IBlock[_xsz, _ysz];
             words.Clear();
             for (int i = 0; i < lstwords.Count; i++)
             {
-                if (directions[i] == "Horizontal")
+                Direction direction = (directions[i] != "Horizontal" ? Direction.Horizontal : Direction.Vertical);
+                Word word = new Word(lstwords[i].ToLower(), _word_list[lstwords[i].ToLower()], direction);
+                PlaceWord(word, startpoints[i]);
+            }
+
+            // дозаполняем все пустые клетки черными блоками с любым направлением
+            for (int row = 0; row < _blocks.GetLength(0); row++)
+            {
+                for (int col = 0; col < _blocks.GetLength(1); col++)
                 {
-                    words.Add(new Word(lstwords[i].ToLower(), _word_list[lstwords[i].ToLower()], Direction.Vertical));
+                    if (_blocks[row, col] == null)
+                        _blocks[row, col] = new BlackBlock();
                 }
-                else
+            }
+        }
+
+        public void UpdateSolved(List<string> lstwords, List<Point> startpoints)
+        {
+            for (int i = 0; i < lstwords.Count; i++)
+            {
+                for (int j = 0; j < lstwords[i].Length; ++j)
                 {
-                    words.Add(new Word(lstwords[i].ToLower(), _word_list[lstwords[i].ToLower()], Direction.Horizontal));
+                    if (char.IsUpper(lstwords[i][j]))
+                    {
+                        Point sym_point = GetWordCoord(words[i], startpoints[i], j);
+                        ((CharacterBlock)_blocks[sym_point.X, sym_point.Y]).SetSolved();
+                    }
                 }
             }
-            PlaceWords(words, startpoints);
-            return true;
-            // код продолжения кроссворда
-            // создаем слова( не рандомное направление, а выбранное )
-            // размещаем в определнном месте
-            // можно просто размещать, а дальше на нужные буквы как в подсказках прописать открытие
-
-
-            // bool - проверка, есть ли слово в словаре, если нету, то false, ведь словарь мог уже обновиться
         }
-
-        private void PlaceWords(List<Word> words, List<Point> startingPoints)
-        {
-            if (words.Count != startingPoints.Count)
-            {
-                throw new ArgumentException("Number of words must match the number of starting points.");
-            }
-
-            // Create a temporary grid to track block occupancy
-            IBlock[,] tempGrid = new IBlock[_blocks.GetLength(0), _blocks.GetLength(1)];
-
-            for (int i = 0; i < words.Count; i++)
-            {
-                Word word = words[i];
-                Point startingPoint = startingPoints[i];
-
-                PlaceWordManually(word, startingPoint, tempGrid);
-            }
-        }
-
-        private void PlaceWordManually(Word word, Point startingPoint, IBlock[,] tempGrid)
-        {
-            // Get word direction and length
-            Direction direction = word.GetDirection();
-            int wordLength = word.GetLength();
-
-            // Place word characters on the grid and update tempGrid
-            for (int i = 0; i < wordLength; i++)
-            {
-                Point currentPoint = GetPointFromStartingPoint(startingPoint, direction, i);
-                char letter = word.GetCorrectWord()[i];
-
-                _blocks[currentPoint.Y, currentPoint.X] = new CharacterBlock(letter);
-                tempGrid[currentPoint.Y, currentPoint.X] = _blocks[currentPoint.Y, currentPoint.X];
-            }
-        }
-
 
         // генерация кроссворда
         public void GenerateNewCrossword(Dictionary<string, string> word_list, CrosswordSize size)
@@ -236,18 +223,6 @@ namespace crossword
                     if (_blocks[row, col] == null)
                         _blocks[row, col] = new BlackBlock();
                 }
-            }
-        }
-        private Point GetPointFromStartingPoint(Point startingPoint, Direction direction, int offset)
-        {
-            switch (direction)
-            {
-                case Direction.Horizontal:
-                    return new Point(startingPoint.X + offset, startingPoint.Y);
-                case Direction.Vertical:
-                    return new Point(startingPoint.X, startingPoint.Y + offset);
-                default:
-                    throw new ArgumentException("Invalid direction: " + direction);
             }
         }
 
