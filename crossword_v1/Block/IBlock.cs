@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace crossword_v2
+namespace crossword_v1
 {
     public interface IBlock
     {

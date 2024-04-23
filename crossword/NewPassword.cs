@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Configuration;
 
-namespace crossword
+namespace crossword_v2
 {
     public partial class NewPassword : Form
     {

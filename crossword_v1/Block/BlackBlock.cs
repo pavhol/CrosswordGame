@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace crossword_v2
+namespace crossword_v1
 {
     enum BlockOverwrite
     {
@@ -81,7 +81,8 @@ namespace crossword_v2
 
             if (overwriteCondition == BlockOverwrite.Any)
             {
-                switch (direction) {
+                switch (direction)
+                {
                     case Direction.Vertical:
                         overwriteCondition = BlockOverwrite.HorizontalOnly;
                         return;

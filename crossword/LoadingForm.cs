@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace crossword
+namespace crossword_v2
 {
     partial class LoadingForm : Form
     {

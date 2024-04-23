@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace crossword
+namespace crossword_v2
 {
     public partial class EditWordList : Form
     {

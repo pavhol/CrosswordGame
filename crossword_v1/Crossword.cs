@@ -6,23 +6,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace crossword_v2
+namespace crossword_v1
 {
-    // уровень сложности
-    public enum CrosswordSize
-    {
-        Small,
-        Normal,
-        Large
-    }
-
     class Crossword
     {
         // размер поля
         private int _xsz;
         private int _ysz;
 
-        CrosswordSize _size;
         public IBlock[,] _blocks { get; private set; }
         Dictionary<string, string> _word_list;
         public List<Word> words { get; private set; }
@@ -71,90 +62,11 @@ namespace crossword_v2
             return new Word(wordName, description, rstream.Next(2) == 0 ? Direction.Horizontal : Direction.Vertical);
         }
 
-        // восстановление кроссворда
-        public void ContinueCrossword(Dictionary<string, string> word_list, IBlock[,] blocks, List<string> lstwords, List<string> directions, List<Point> startpoints)
-        {
-            // убираем недозаполненные слова
-            for (int i = 0; i < lstwords.Count; ++i)
-            {
-                for (int j = 0; j < lstwords[i].Length; ++j)
-                {
-                    if (char.IsLower(lstwords[i][j]))
-                    {
-                        lstwords[i] = lstwords[i].ToLower();
-                        break;
-                    }
-                }
-            }
-
-            _word_list = new Dictionary<string, string>(word_list);
-            switch (blocks.GetLength(0))
-            {
-                case 17:
-                    _size = CrosswordSize.Small;
-                    break;
-                case 24:
-                    _size = CrosswordSize.Normal;
-                    break;
-                case 31:
-                    _size = CrosswordSize.Large;
-                    break;
-            }
-
-            _xsz = _ysz = blocks.GetLength(0);
-            _blocks = new IBlock[_xsz, _ysz];
-            words.Clear();
-            for (int i = 0; i < lstwords.Count; i++)
-            {
-                Direction direction = (directions[i] != "Horizontal" ? Direction.Horizontal : Direction.Vertical);
-                Word word = new Word(lstwords[i].ToLower(), _word_list[lstwords[i].ToLower()], direction);
-                PlaceWord(word, startpoints[i]);
-            }
-
-            // дозаполняем все пустые клетки черными блоками с любым направлением
-            for (int row = 0; row < _blocks.GetLength(0); row++)
-            {
-                for (int col = 0; col < _blocks.GetLength(1); col++)
-                {
-                    if (_blocks[row, col] == null)
-                        _blocks[row, col] = new BlackBlock();
-                }
-            }
-        }
-
-        public void UpdateSolved(List<string> lstwords, List<Point> startpoints)
-        {
-            for (int i = 0; i < lstwords.Count; i++)
-            {
-                for (int j = 0; j < lstwords[i].Length; ++j)
-                {
-                    if (char.IsUpper(lstwords[i][j]))
-                    {
-                        Point sym_point = GetWordCoord(words[i], startpoints[i], j);
-                        ((CharacterBlock)_blocks[sym_point.X, sym_point.Y]).SetSolved();
-                    }
-                }
-            }
-        }
-
         // генерация кроссворда
-        public void GenerateNewCrossword(Dictionary<string, string> word_list, CrosswordSize size)
+        public void GenerateNewCrossword(Dictionary<string, string> word_list)
         {
             _word_list = new Dictionary<string, string>(word_list);
-            _size = size;
-            switch (_size)
-            {
-                case CrosswordSize.Small:
-                    _xsz = _ysz = 17;
-                    break;
-                case CrosswordSize.Normal:
-                    _xsz = _ysz = 24;
-                    break;
-                case CrosswordSize.Large:
-                    _xsz = _ysz = 31;
-                    break;
-            }
-
+            _xsz = _ysz = 25;
             words.Clear();
             _blocks = new IBlock[_xsz, _ysz];
             if (_word_list.Count < 4)

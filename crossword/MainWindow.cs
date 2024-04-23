@@ -10,7 +10,8 @@ using System.Windows.Forms;
 using System.Windows;
 using System.IO;
 using System.Configuration;
-namespace crossword
+
+namespace crossword_v2
 {
     public partial class MainWindow : Form
     {

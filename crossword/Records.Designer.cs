@@ -1,4 +1,4 @@
-﻿namespace crossword
+﻿namespace crossword_v2
 {
     partial class Records
     {
