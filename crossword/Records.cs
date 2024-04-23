@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace crossword
+namespace crossword_v2
 {
     public partial class Records : Form
     {

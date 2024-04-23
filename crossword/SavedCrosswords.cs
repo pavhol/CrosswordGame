@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace crossword
+namespace crossword_v2
 {
     public partial class SavedCrosswords : Form
     {

@@ -11,7 +11,7 @@ using System.Xml;
 using System.IO;
 using System.Globalization;
 
-namespace crossword
+namespace crossword_v2
 {
     public partial class MainMenu : Form
     {
