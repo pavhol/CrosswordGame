@@ -66,12 +66,12 @@ namespace crossword
             _crosswordGM.Close();
             Close();
         }
-        
+
         private void button5_Click(object sender, EventArgs e)
         {
             PasswordForm passFM = new PasswordForm();
             passFM.ShowDialog();
-            if ( passFM.IsPasswordCorrect )
+            if (passFM.IsPasswordCorrect)
             {
                 EditWordList _edit_word_listW = new EditWordList(_word_list);
                 _edit_word_listW.ShowDialog();
@@ -93,7 +93,7 @@ namespace crossword
                 {
                     var wordName = wordNode.Attributes["name"].Value;
                     var wordDescription = wordNode.Attributes["description"].Value;
-                    _word_list.Add(wordName, wordDescription);
+                    _word_list.Add(wordName.ToLower(), wordDescription);
                 }
             }
             catch (Exception ex)
@@ -144,20 +144,23 @@ namespace crossword
 
             SavedCrosswords saved_crosswords = new SavedCrosswords();
             saved_crosswords.ShowDialog();
-            if ( saved_crosswords.file_name.Length > 0)
+            if (saved_crosswords.file_name.Length > 0)
             {
                 IBlock[,] blocks;
                 DateTime time;
+                List<string> words = new List<string>();
+                List<string> directions = new List<string>();
+                List<Point> startpoints = new List<Point>();
                 using (FileStream fs = File.OpenRead(Path.Combine(directory_path, saved_crosswords.file_name)))
                 {
-                    using (StreamReader sr = new StreamReader(fs))
+                    using (StreamReader reader = new StreamReader(fs))
                     {
-                        string time_string = sr.ReadLine();
-                        time = DateTime.ParseExact(time_string, @"hh\:mm\:ss", DateTimeFormatInfo.CurrentInfo);
 
+                        string time_string = reader.ReadLine();
+                        time = DateTime.ParseExact(time_string, @"hh\:mm\:ss", DateTimeFormatInfo.CurrentInfo);
                         List<string> lines = new List<string>();
                         string line;
-                        while ((line = sr.ReadLine()) != null)
+                        while ((line = reader.ReadLine()) != null)
                             lines.Add(line);
 
                         blocks = new IBlock[lines.Count, lines[0].Length];
@@ -165,27 +168,79 @@ namespace crossword
                         {
                             for (int j = 0; j < lines[i].Length; j++)
                             {
-                                if ( lines[i][j] == '#')
+                                if (lines[i][j] == '#')
                                     blocks[i, j] = new BlackBlock();
                                 else
                                 {
-                                    if ( char.IsUpper(lines[i][j]) )
+                                    if (char.IsUpper(lines[i][j]))
                                     {
                                         blocks[i, j] = new CharacterBlock(char.ToUpper(lines[i][j]));
                                         blocks[i, j].SetConfirmed();
                                     }
                                     else
+                                    {
                                         blocks[i, j] = new CharacterBlock(char.ToUpper(lines[i][j]));
+                                    }
                                 }
                             }
                         }
+                        // Поиск слов по горизонтали
+                        int k = 0;
+                        foreach (string row in lines)
+                        {
+                            StringBuilder word = new StringBuilder();
+                            for (int i = 0; i < row.Length; i++)
+                            {
+                                if (row[i] != '#')
+                                {
+                                    word.Append(row[i]);
+                                }
+                                else
+                                {
+                                    if (word.Length > 2)
+                                    {
+                                        words.Add(word.ToString());
+                                        startpoints.Add(new Point(i - word.Length, k));
+                                        directions.Add("Horizontal");
+                                    }
+                                    word.Clear();
+                                }
+                            }
+                            k++;
+                        }
+                        k = 0;
+                        // Поиск слов по вертикали
+                        for (int col = 0; col < lines[0].Length; col++)
+                        {
+                            StringBuilder word = new StringBuilder();
+                            foreach (string row in lines)
+                            {
+                                if (row.Length > col && row[col] != '#')
+                                {
+                                    word.Append(row[col]);
+                                }
+                                else
+                                {
+                                    if (word.Length > 2)
+                                    {
+                                        words.Add(word.ToString());
+                                        startpoints.Add(new Point(col, k - word.Length));
+                                        directions.Add("Vertical");
+                                    }
+                                    word.Clear();
+                                }
+                                ++k;
+                            }
+                            k = 0;
+                        }
+
                     }
                 }
 
                 File.Delete(Path.Combine(directory_path, saved_crosswords.file_name));
 
                 Hide();
-                _crosswordGM.StartGame(blocks, time);
+                _crosswordGM.StartGame(blocks, time, words, directions, startpoints);
                 Show();
             }
         }

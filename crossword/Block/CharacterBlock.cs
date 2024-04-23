@@ -91,6 +91,11 @@ namespace crossword
                 }
             });
         }
+        public void SetAnswer(char answer)
+        {
+            this.answer = answer;
+            UpdateState(BlockState.Unconfirmed);
+        }
 
         public void Backspace()
         {
@@ -247,7 +252,7 @@ namespace crossword
 
         public void RemoveOverwritePossibility(Direction direction)
         {
-        
+
         }
     }
 }

@@ -56,7 +56,7 @@ namespace crossword
             else if (this == MainWindow.selectedWord)
             {
                 int currentIndex = Array.FindIndex(_blocks, p => p == block) + 1;
-                
+
                 if (_blocks.Length > currentIndex)
                 {
                     _blocks[currentIndex].Focus();
@@ -205,7 +205,7 @@ namespace crossword
             }
             return correct;
         }
-        override public string ToString() 
+        override public string ToString()
         {
             return _description;
         }

@@ -52,16 +52,16 @@ namespace crossword
             ShowDialog();
         }
 
-        public void StartGame(IBlock[,] blocks, DateTime time)
+        public void StartGame(IBlock[,] blocks, DateTime time, List<string> words, List<string> directions, List<Point> startpoints)
         {
             Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             LoadingForm lf = new LoadingForm();
-            if ( !ContinueGame(blocks) )
+            if (!ContinueGame(blocks, words, directions, startpoints))
             {
                 MessageBox.Show("Не удалось открыть кроссворд!");
                 return;
-            }    
-                
+            }
+
             startTime = DateTime.Now;
             startTime = startTime.Add(-(time.TimeOfDay));
             lf.Close();
@@ -84,12 +84,13 @@ namespace crossword
             RemakeWords();
         }
 
-        private bool ContinueGame(IBlock[,] blocks)
+        private bool ContinueGame(IBlock[,] blocks, List<string> words, List<string> directions, List<Point> startpoints)
         {
-            if (!_active_crossword.ContinueCrossword(_word_list, blocks))
+            if (!_active_crossword.ContinueCrossword(_word_list, blocks, words, directions, startpoints))
                 return false;
             else
             {
+
                 RemakeTable();
                 RemakeWords();
                 return true;
@@ -108,6 +109,7 @@ namespace crossword
                 {
                     listBoxhorizontal.Items.Add(words[i]);
                     listBoxhorizontal.Size = new Size(listBoxhorizontal.Width, listBoxhorizontal.Items.Count * 20 + 30);
+
                 }
                 else
                 {
@@ -139,7 +141,7 @@ namespace crossword
             {
                 listBoxvertical.SelectedIndex = 0;
             }
-            else if (listBoxhorizontal.Items.Count == 0 && listBoxvertical.Items.Count==0)
+            else if (listBoxhorizontal.Items.Count == 0 && listBoxvertical.Items.Count == 0)
             {
                 TimeSpan elapsedTime = DateTime.Now - startTime;
                 MessageBox.Show("Победа! Прошло времени: " + elapsedTime.ToString(@"hh\:mm\:ss"));
@@ -167,7 +169,7 @@ namespace crossword
                     toolStripStatusLabel2.Text = _balance.ToString();
                     using (StreamWriter writer = new StreamWriter(_filename, true))
                     {
-                        
+
                         writer.WriteLine(elapsedTime.ToString(@"hh\:mm\:ss"));
                     }
                 }
@@ -182,7 +184,7 @@ namespace crossword
         public void WriteConfig()
         {
             Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            if (_config.AppSettings.Settings["_balance"]==null)
+            if (_config.AppSettings.Settings["_balance"] == null)
             {
                 _config.AppSettings.Settings.Add("_balance", _balance.ToString());
             }
@@ -192,7 +194,7 @@ namespace crossword
 
         }
 
-        
+
         public void RemakeTable()
         {
             IBlock[,] blocks = _active_crossword._blocks;
@@ -218,13 +220,13 @@ namespace crossword
             {
                 UI_TablePanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, blockSizePx));
             }
-            
 
-            for (int row = 0; row < rowcount; row++) 
+
+            for (int row = 0; row < rowcount; row++)
             {
                 for (int col = 0; col < columncount; col++)
                 {
-                    UI_TablePanel.Controls.Add(blocks[row,col].GetVisualControl(), col, row);
+                    UI_TablePanel.Controls.Add(blocks[row, col].GetVisualControl(), col, row);
                 }
             }
         }
@@ -260,7 +262,7 @@ namespace crossword
                 SelectedWordChanged(high);
                 listBoxhorizontal.ClearSelected();
             }
-            
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -274,7 +276,7 @@ namespace crossword
             WriteConfig();
             Hide();
 
-            e.Cancel = true; 
+            e.Cancel = true;
         }
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -284,7 +286,7 @@ namespace crossword
                 Directory.CreateDirectory(directory_path);
 
             int num = 1;
-            while(true)
+            while (true)
             {
                 string file_name = "Crossword" + Convert.ToString(num) + ".crs";
                 if (!File.Exists(Path.Combine(directory_path, file_name)))
@@ -324,9 +326,9 @@ namespace crossword
                                     sw.Write(block.GetAnswer().ToString().ToLower());
                             }
                         }
-
                         sw.WriteLine();
                     }
+
                 }
             }
 
