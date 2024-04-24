@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_09E2CEB7C11046789FB2621937C30206"
+        "MsmKey" = "8:_33BE9D30821E4921BD3B4BE7EC0D1924"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -40,13 +40,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BFD6BDED210BC26A7B7D436583E8AF83"
+        "OwnerKey" = "8:_D1EAE0D0FEA84690A92A78823D5D82D2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D1EAE0D0FEA84690A92A78823D5D82D2"
+        "OwnerKey" = "8:_BFD6BDED210BC26A7B7D436583E8AF83"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -67,6 +67,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -83,6 +91,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -112,9 +128,9 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_09E2CEB7C11046789FB2621937C30206"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_33BE9D30821E4921BD3B4BE7EC0D1924"
             {
-            "SourcePath" = "8:..\\crossword\\bin\\Debug\\WordList.xml"
+            "SourcePath" = "8:..\\WordList.xml"
             "TargetName" = "8:WordList.xml"
             "Tag" = "8:"
             "Folder" = "8:_B5B6E38C16D4476BA64603527C7C1C64"
